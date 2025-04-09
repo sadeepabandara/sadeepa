@@ -17,7 +17,7 @@ const Home = () => {
             exit='hidden'
             className='h1'
           >
-            Sadeepa Bandara <br /> I am a/an
+            Sadeepa Bandara <br /> I am a/an{' '}
             <TypeAnimation
               sequence={[
                 'Investor',
