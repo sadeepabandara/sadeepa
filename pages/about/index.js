@@ -220,7 +220,7 @@ const About = () => {
             {aboutData.map((item, itemIndex) => {
               return (
                 <div
-                  key={itemIndex}
+                  key={item.title}
                   className={`relative capitalize cursor-pointer xl:text-lg
     ${
       index === itemIndex
