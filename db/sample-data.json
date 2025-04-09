@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "info": "Sadeepa Bandara",
+    "description": "Computing Student | Full-Stack Developer | Graphic Designer | Freelancer | Investor"
+  },
+  {
+    "id": 2,
+    "info": "Education",
+    "description": "Bachelors in Computing from Coventry University"
+  },
+  {
+    "id": 3,
+    "info": "Profession",
+    "description": "Freelancer at Fiverr | Intern Software Engineer at Softmint Software Solutions"
+  },
+  {
+    "id": 4,
+    "info": "Facebook",
+    "description": "Sadeepa Bandara - Share personal life experiences and memes"
+  },
+  {
+    "id": 5,
+    "info": "Instagram",
+    "description": "@sadeepabandara - Share professional photos and life experiences"
+  },
+  {
+    "id": 6,
+    "info": "Linkedin",
+    "description": "@sadeepabandara - Only for share professional life"
+  },
+  {
+    "id": 7,
+    "info": "Personal projects",
+    "description": "@sadeepabandara - Using github or porfolio website you can view all personal projects"
+  }
+]
