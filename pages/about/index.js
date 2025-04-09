@@ -132,25 +132,27 @@ const About = () => {
       </motion.div>
       <div className='container flex flex-col items-center h-full mx-auto xl:flex-row gap-x-6'>
         <div className='flex flex-col justify-center flex-1'>
-          <motion.h2
-            variants={fadeIn('right', 0.2)}
-            initial='hidden'
-            animate='show'
-            exit='hidden'
-            className='h2'
-          >
-            Innovation <span className='text-accent'>thrives </span>
-            on creative passion.
-          </motion.h2>
-          <motion.img
-            variants={fadeIn('right', 0.2)}
-            initial='hidden'
-            animate='show'
-            exit='hidden'
-            className='absolute left-[460px] top-[230px] w-52 h-16 hidden lg:block'
-            src='./underline.svg'
-            alt=''
-          />
+          <div className='relative'>
+            <motion.h2
+              variants={fadeIn('right', 0.2)}
+              initial='hidden'
+              animate='show'
+              exit='hidden'
+              className='h2'
+            >
+              Innovation <span className='text-accent'>thrives </span>
+              on creative passion.
+            </motion.h2>
+            <motion.img
+              variants={fadeIn('right', 0.2)}
+              initial='hidden'
+              animate='show'
+              exit='hidden'
+              className='absolute right-12 hidden h-16 bottom-[-20px] w-52 xl:block'
+              src='./underline.svg'
+              alt=''
+            />
+          </div>
           <motion.p
             variants={fadeIn('right', 0.4)}
             initial='hidden'
@@ -162,9 +164,9 @@ const About = () => {
             of Maliyadeva Model School, Kurunegala, I hold a BSc (Hons) in
             Computing from Coventry University, UK. As an Investor,
             Entrepreneur, Developer, and Designer, I am dedicated to innovation
-            and growth. Currently, I'm pursuing a MSc in Information Technology
-            Management at Deakin University, Australia, to further my expertise
-            in the tech industry.
+            and growth. Currently, I&apos;m pursuing a MSc in Information
+            Technology Management at Deakin University, Australia, to further my
+            expertise in the tech industry.
           </motion.p>
           <motion.div
             variants={fadeIn('right', 0.6)}
@@ -220,7 +222,7 @@ const About = () => {
             {aboutData.map((item, itemIndex) => {
               return (
                 <div
-                  key={item.title}
+                  key={itemIndex}
                   className={`relative capitalize cursor-pointer xl:text-lg
     ${
       index === itemIndex
@@ -240,7 +242,7 @@ const About = () => {
             {aboutData[index].info.map((item, itemIndex) => {
               return (
                 <div
-                  key={item.title}
+                  key={itemIndex}
                   className='flex flex-col items-center flex-1 text-white/60 md:flex-row max-w-max gap-x-2'
                 >
                   <div className='mb-2 font-light md:mb-0'>{item.title}</div>
