@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Avatar from '../../components/Avatar';
-import Circles from '../../components/Circles';
 import { motion } from 'framer-motion';
 import { fadeIn } from '../../variants';
 import CountUp from 'react-countup';
@@ -160,13 +159,13 @@ const About = () => {
             exit='hidden'
             className='max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 '
           >
-            My name is Sadeepa Bandara, a 24-year-old from Sri Lanka. An alumnus
-            of Maliyadeva Model School, Kurunegala, I hold a BSc (Hons) in
-            Computing from Coventry University, UK. As an Investor,
-            Entrepreneur, Developer, and Designer, I am dedicated to innovation
-            and growth. Currently, I&apos;m pursuing a MSc in Information
-            Technology Management at Deakin University, Australia, to further my
-            expertise in the tech industry.
+            My name is Sadeepa Bandara, a 24-year-old from Sri Lanka. I hold a
+            BSc (Hons) in Computing from Coventry University, UK. As an
+            Investor, Entrepreneur, Developer, and Designer, I’m passionate
+            about innovation and growth. I’m currently pursuing an MSc in
+            Information Technology Management at Deakin University, Australia,
+            while also studying forex trading and video editing to expand my
+            skills and explore new opportunities.
           </motion.p>
           <motion.div
             variants={fadeIn('right', 0.6)}

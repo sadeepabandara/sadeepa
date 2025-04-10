@@ -13,13 +13,13 @@ const projectSlides = {
       {
         images: [
           { title: 'title', path: '/web-5.png' },
-          { title: 'title', path: '/web-2.jpg' },
           { title: 'title', path: '/web-3.png' },
           { title: 'title', path: '/web-4.png' },
+          { title: 'title', path: '/web-1.jpg' },
         ],
       },
       {
-        images: [{ title: 'title', path: '/web-1.jpg' }],
+        images: [{ title: 'title', path: '/web-2.jpg' }],
       },
     ],
   },
@@ -133,7 +133,7 @@ const ProjectSlider = ({ category }) => {
                   key={index}
                   onClick={() => openModal(image.path)}
                 >
-                  <div className='relative flex items-center justify-center overflow-hidden group'>
+                  <div className='relative flex items-center justify-center h-[200px] overflow-hidden group'>
                     <Image
                       src={image.path}
                       width={500}

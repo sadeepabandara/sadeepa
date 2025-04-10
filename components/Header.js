@@ -9,12 +9,11 @@ const Header = () => {
         <div className='flex flex-col items-center justify-between py-2 lg:flex-row lg:gap-y-6'>
           <Link href='/'>
             <Image
-              src={'/logo-final.png'}
-              width={280}
+              src={'/sadeepa.svg'}
+              width={220}
               height={48}
               alt=''
               priority={true}
-              className='lg:-ml-[28px]'
             />
           </Link>
           <Socials />

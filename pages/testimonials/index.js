@@ -15,7 +15,6 @@ const Testimonials = () => {
         >
           What clients <span className='text-accent'>say.</span>
         </motion.h2>
-        {/* <div className='absolute w-full h-full bg-none xl:bg-explosion xl:bg-cover xl:bg-right xl:bg-no-repeat mix-blend-color-dodge translate-z-0'></div> */}
         <motion.div
           variants={fadeIn('up', 0.4)}
           initial='hidden'

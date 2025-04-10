@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
     <Layout>
       <Head>
         <link rel='shortcut icon' href='/favicon.ico' />
-        <title>Sadeepa Bandara | Developer</title>
+        <title>Szdeepa | Portfolio</title>
       </Head>
       <AnimatePresence mode='wait'>
         <motion.div key={router.route} className='h-full'>

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import ProjectSlider from '../../components/ProjectSlider';
-import Bulb from '../../components/Bulb';
 import Circles from '../../components/Circles';
 import { motion } from 'framer-motion';
 import { fadeIn } from '../../variants';
@@ -26,17 +25,16 @@ const Projects = () => {
       <div className='container mx-auto'>
         <div className='flex flex-col xl:flex-row gap-x-8'>
           <div className='flex text-center xl:w-[30vw] flex-col lg:text-left mb-4 xl:mb-0'>
-            <div className='relative'>
-              <motion.h2
-                variants={fadeIn('up', 0.3)}
-                initial='hidden'
-                animate='show'
-                exit='hidden'
-                className='pt-40 md:pt-0 h2 xl:mt-0 xl:mb-8'
-              >
-                My Projects <span className='text-accent'>.</span>
-              </motion.h2>
-              <motion.img
+            <motion.h2
+              variants={fadeIn('up', 0.3)}
+              initial='hidden'
+              animate='show'
+              exit='hidden'
+              className='pt-40 md:pt-0 h2 xl:mt-0 xl:mb-8'
+            >
+              My Projects <span className='text-accent'>.</span>
+            </motion.h2>
+            {/* <motion.img
                 variants={fadeIn('up', 0.4)}
                 initial='hidden'
                 animate='show'
@@ -44,8 +42,7 @@ const Projects = () => {
                 className='absolute right-9 hidden h-16 bottom-[-10px] w-60 xl:block'
                 src='./underline.svg'
                 alt=''
-              />
-            </div>
+              /> */}
             <motion.p
               variants={fadeIn('up', 0.5)}
               initial='hidden'

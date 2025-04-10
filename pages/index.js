@@ -1,6 +1,5 @@
 import ParticlesContainer from '../components/ParticlesContainer';
 import ProjectsBtn from '../components/ProjectsBtn';
-import Avatar from '../components/Avatar';
 import { motion } from 'framer-motion';
 import { fadeIn } from '../variants';
 import { TypeAnimation } from 'react-type-animation';
@@ -42,9 +41,9 @@ const Home = () => {
             exit='hidden'
             className='max-w-sm mx-auto mb-10 xl:max-w-xl xl:mx-0 xl:mb-16'
           >
-            Discover where creativity meets innovation on my digital canvas.
-            Explore a mosaic of projects that reflect my journey, bringing ideas
-            to life and unfolding unique possibilities.
+            Explore my digital portfolio, where creativity and innovation come
+            to life. Discover a curated collection of work that showcases my
+            journey and the endless possibilities of design and imagination.
           </motion.p>
           <div className='relative flex justify-center xl:hidden'>
             <ProjectsBtn />
@@ -70,9 +69,7 @@ const Home = () => {
           exit='hidden'
           transition={{ duration: 1, ease: 'easeInOut' }}
           className='absolute -bottom-32 lg:bottom-0 lg:right-[0%]'
-        >
-          {/* <Avatar /> */}
-        </motion.div>
+        ></motion.div>
       </div>
     </div>
   );
