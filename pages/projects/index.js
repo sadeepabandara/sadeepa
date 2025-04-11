@@ -30,7 +30,7 @@ const Projects = () => {
               initial='hidden'
               animate='show'
               exit='hidden'
-              className='pt-40 md:pt-0 h2 xl:mt-0 xl:mb-8'
+              className=' md:pt-0 h2 xl:mt-0 xl:mb-8'
             >
               My Projects <span className='text-accent'>.</span>
             </motion.h2>

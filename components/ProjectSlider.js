@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -107,6 +107,21 @@ const projectSlides = {
 const ProjectSlider = ({ category }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const slides = projectSlides[category]?.slides || [];
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    const handleMediaChange = (e) => setIsMobile(e.matches);
+
+    // Set initial value
+    setIsMobile(mediaQuery.matches);
+
+    // Add listener
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    // Cleanup listener on unmount
+    return () => mediaQuery.removeEventListener('change', handleMediaChange);
+  }, []);
 
   const openModal = (imagePath) => {
     setSelectedImage(imagePath);
@@ -122,7 +137,7 @@ const ProjectSlider = ({ category }) => {
         spaceBetween={10}
         pagination={{ clickable: true }}
         modules={[Pagination]}
-        className='h-[280px] sm:h-[480px]'
+        // className='h-[280px] sm:h-[480px]'
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
@@ -133,15 +148,16 @@ const ProjectSlider = ({ category }) => {
                   key={index}
                   onClick={() => openModal(image.path)}
                 >
-                  <div className='relative flex items-center justify-center h-[200px] overflow-hidden group'>
+                  <div className='relative flex items-center justify-center max-h-[200px] overflow-hidden group'>
                     <Image
                       src={image.path}
                       width={500}
                       height={300}
                       alt={image.title}
+                      className='object-cover w-full h-full'
                     />
                     <div className='absolute inset-0 bg-gradient-to-l from-transparent via-[#e838cc] to-[#4a22bd] opacity-0 group-hover:opacity-80 transition-all duration-700'></div>
-                    <div className='absolute bottom-0 transition-all duration-300 translate-y-full group-hover:-translate-y-10 xl:group-hover:-translate-y-20'>
+                    <div className='absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100'>
                       <div className='flex items-center gap-x-2 text-[13px] tracking-[0.2em]'>
                         <div className='delay-100'>LIVE</div>
                         <div className='translate-y-[500%] group-hover:translate-y-0 transition-all duration-300 delay-150'>
