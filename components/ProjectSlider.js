@@ -6,122 +6,25 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper';
 import { BsArrowRight } from 'react-icons/bs';
 import Image from 'next/image';
-
-const projectSlides = {
-  webDevelopment: {
-    slides: [
-      {
-        images: [
-          { title: 'title', path: '/web-5.png' },
-          { title: 'title', path: '/web-3.png' },
-          { title: 'title', path: '/web-4.png' },
-          { title: 'title', path: '/web-1.jpg' },
-        ],
-      },
-      {
-        images: [{ title: 'title', path: '/web-2.jpg' }],
-      },
-    ],
-  },
-  mobileDevelopment: {
-    slides: [
-      {
-        images: [
-          { title: 'title', path: '/mobile-1.png' },
-          { title: 'title', path: '/ui-1.png' },
-        ],
-      },
-    ],
-  },
-  logoDesign: {
-    slides: [
-      {
-        images: [
-          { title: 'title', path: '/logo-3.png' },
-          { title: 'title', path: '/logo-2.png' },
-          { title: 'title', path: '/logo-4.png' },
-          { title: 'title', path: '/logo-6.png' },
-        ],
-      },
-      {
-        images: [{ title: 'title', path: '/logo-5.png' }],
-      },
-    ],
-  },
-  painting: {
-    slides: [
-      {
-        images: [
-          { title: 'title', path: '/painting01.jpeg' },
-          { title: 'title', path: '/painting02.jpeg' },
-          { title: 'title', path: '/painting03.jpeg' },
-          { title: 'title', path: '/painting04.jpeg' },
-        ],
-      },
-      {
-        images: [
-          { title: 'title', path: '/painting05.jpeg' },
-          { title: 'title', path: '/painting06.jpeg' },
-          { title: 'title', path: '/painting07.jpeg' },
-          { title: 'title', path: '/painting08.jpeg' },
-        ],
-      },
-      {
-        images: [
-          { title: 'title', path: '/painting09.jpeg' },
-          { title: 'title', path: '/painting10.jpeg' },
-          { title: 'title', path: '/painting11.jpeg' },
-          { title: 'title', path: '/painting12.jpeg' },
-        ],
-      },
-      {
-        images: [
-          { title: 'title', path: '/painting13.jpeg' },
-          { title: 'title', path: '/painting14.jpeg' },
-          { title: 'title', path: '/painting15.jpeg' },
-          { title: 'title', path: '/painting16.jpeg' },
-        ],
-      },
-      {
-        images: [{ title: 'title', path: '/painting18.jpeg' }],
-      },
-    ],
-  },
-  illustrations: {
-    slides: [
-      {
-        images: [
-          { title: 'title', path: '/illustration01.jpeg' },
-          { title: 'title', path: '/illustration02.jpeg' },
-          { title: 'title', path: '/illustration15.jpeg' },
-          { title: 'title', path: '/illustration11.jpeg' },
-        ],
-      },
-      {
-        images: [{ title: 'title', path: '/illustration10.jpeg' }],
-      },
-    ],
-  },
-};
+import desktopProjectSlides from '../data/desktopProjectSlides';
+import mobileProjectSlides from '../data/mobileProjectSlides';
 
 const ProjectSlider = ({ category }) => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const slides = projectSlides[category]?.slides || [];
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 768px)');
     const handleMediaChange = (e) => setIsMobile(e.matches);
-
-    // Set initial value
     setIsMobile(mediaQuery.matches);
-
-    // Add listener
     mediaQuery.addEventListener('change', handleMediaChange);
-
-    // Cleanup listener on unmount
     return () => mediaQuery.removeEventListener('change', handleMediaChange);
   }, []);
+
+  // Choose the appropriate slides based on device
+  const slides = isMobile
+    ? mobileProjectSlides[category]?.slides || []
+    : desktopProjectSlides[category]?.slides || [];
 
   const openModal = (imagePath) => {
     setSelectedImage(imagePath);
@@ -137,41 +40,68 @@ const ProjectSlider = ({ category }) => {
         spaceBetween={10}
         pagination={{ clickable: true }}
         modules={[Pagination]}
-        // className='h-[280px] sm:h-[480px]'
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className='grid grid-cols-2 grid-rows-2 gap-4 cursor-pointer'>
-              {slide.images.map((image, index) => (
-                <div
-                  className='relative flex items-center justify-center overflow-hidden rounded-lg group'
-                  key={index}
-                  onClick={() => openModal(image.path)}
-                >
-                  <div className='relative flex items-center justify-center max-h-[200px] overflow-hidden group'>
-                    <Image
-                      src={image.path}
-                      width={500}
-                      height={300}
-                      alt={image.title}
-                      className='object-cover w-full h-full'
-                    />
-                    <div className='absolute inset-0 bg-gradient-to-l from-transparent via-[#e838cc] to-[#4a22bd] opacity-0 group-hover:opacity-80 transition-all duration-700'></div>
-                    <div className='absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100'>
-                      <div className='flex items-center gap-x-2 text-[13px] tracking-[0.2em]'>
-                        <div className='delay-100'>LIVE</div>
-                        <div className='translate-y-[500%] group-hover:translate-y-0 transition-all duration-300 delay-150'>
-                          PROJECT
-                        </div>
-                        <div className='text-xl translate-y-[500%] group-hover:translate-y-0 transition-all duration-300 delay-200'>
-                          <BsArrowRight />
-                        </div>
+            {isMobile ? (
+              <div className='relative flex items-center justify-center overflow-hidden rounded-lg cursor-pointer group'>
+                <div className='relative flex items-center justify-center max-h-[400px] overflow-hidden group'>
+                  <Image
+                    src={slide.images[0].path}
+                    width={500}
+                    height={300}
+                    alt={slide.images[0].title}
+                    className='object-cover w-full h-full'
+                    onClick={() => openModal(slide.images[0].path)}
+                  />
+                  {/* Overlay effects remain the same */}
+                  <div className='absolute inset-0 bg-gradient-to-l from-transparent via-[#e838cc] to-[#4a22bd] opacity-0 group-hover:opacity-80 transition-all duration-700'></div>
+                  <div className='absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100'>
+                    <div className='flex items-center gap-x-2 text-[13px] tracking-[0.2em]'>
+                      <div className='delay-100'>LIVE</div>
+                      <div className='translate-y-[500%] group-hover:translate-y-0 transition-all duration-300 delay-150'>
+                        PROJECT
+                      </div>
+                      <div className='text-xl translate-y-[500%] group-hover:translate-y-0 transition-all duration-300 delay-200'>
+                        <BsArrowRight />
                       </div>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <div className='grid grid-cols-2 grid-rows-2 gap-4 cursor-pointer'>
+                {slide.images.map((image, idx) => (
+                  <div
+                    className='relative flex items-center justify-center overflow-hidden rounded-lg group'
+                    key={idx}
+                    onClick={() => openModal(image.path)}
+                  >
+                    <div className='relative flex items-center justify-center max-h-[200px] overflow-hidden group'>
+                      <Image
+                        src={image.path}
+                        width={500}
+                        height={300}
+                        alt={image.title}
+                        className='object-cover w-full h-full'
+                      />
+                      <div className='absolute inset-0 bg-gradient-to-l from-transparent via-[#e838cc] to-[#4a22bd] opacity-0 group-hover:opacity-80 transition-all duration-700'></div>
+                      <div className='absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100'>
+                        <div className='flex items-center gap-x-2 text-[13px] tracking-[0.2em]'>
+                          <div className='delay-100'>LIVE</div>
+                          <div className='translate-y-[500%] group-hover:translate-y-0 transition-all duration-300 delay-150'>
+                            PROJECT
+                          </div>
+                          <div className='text-xl translate-y-[500%] group-hover:translate-y-0 transition-all duration-300 delay-200'>
+                            <BsArrowRight />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </SwiperSlide>
         ))}
       </Swiper>

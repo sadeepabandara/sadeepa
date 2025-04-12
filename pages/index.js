@@ -16,16 +16,16 @@ const Home = () => {
             exit='hidden'
             className='h1'
           >
-            Sadeepa Bandara <br /> I am a/an{' '}
+            Sadeepa Bandara <br /> I am{' '}
             <TypeAnimation
               sequence={[
-                'Investor',
+                'an Investor',
                 1000,
-                'Entrepreneur',
+                'an Entrepreneur',
                 1000,
-                'Developer',
+                'a Developer',
                 1000,
-                'Designer',
+                'a Designer',
                 1000,
               ]}
               speed={10}
