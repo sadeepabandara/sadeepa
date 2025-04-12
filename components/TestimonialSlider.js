@@ -19,7 +19,7 @@ const testimonialData = [
     name: 'Marlene Ogata',
     position: 'Customer',
     message:
-      'This man did an excellent job! I am really happy and satisfied with the work that was done for me. The communication was great, and everything was completed just the way I wanted. I would definitely recommend Sadeepa to others and would love to work with them again in the future. Thank you so much for the great service!',
+      'This man did an excellent job! I am really happy and satisfied with the work that was done for me. I would definitely recommend Sadeepa to others and would love to work with them again in the future. Thank you so much for the great service!',
   },
 ];
 
@@ -39,7 +39,7 @@ const TestimonialSlider = () => {
         clickable: true,
       }}
       modules={[Navigation, Pagination]}
-      className='h-[400px]'
+      className='h-[470px]'
     >
       {testimonialData.map((testimonial, index) => {
         return (

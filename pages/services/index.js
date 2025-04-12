@@ -53,7 +53,6 @@ const Services = () => {
           </motion.div>
         </div>
       </div>
-      {/* <Bulb /> */}
     </div>
   );
 };

@@ -11,10 +11,8 @@ import {
   RxCamera,
 } from 'react-icons/rx';
 import { VscPaintcan } from 'react-icons/vsc';
-import { IoVideocamOutline } from "react-icons/io5";
-import { IoGameControllerOutline } from "react-icons/io5";
-
-
+import { IoVideocamOutline } from 'react-icons/io5';
+import { IoGameControllerOutline } from 'react-icons/io5';
 
 // data
 const serviceData = [
@@ -64,7 +62,7 @@ const serviceData = [
     icon: <IoGameControllerOutline />,
     title: 'Game Development',
     description:
-      'We craft immersive games, blending creativity and technology to deliver captivating experiences across various platforms, engaging players and pushing boundaries in the gaming industry.',
+      'We craft immersive games, blending creativity and technology to deliver captivating experiences across various platforms, engaging players and pushing boundaries in the gaming.',
   },
 ];
 
@@ -83,6 +81,10 @@ const ServiceSlider = () => {
           spaceBetween: 15,
         },
         640: {
+          slidesPerView: 2,
+          spaceBetween: 15,
+        },
+        1048: {
           slidesPerView: 3,
           spaceBetween: 15,
         },
@@ -92,12 +94,12 @@ const ServiceSlider = () => {
         clickable: true,
       }}
       modules={[FreeMode, Pagination]}
-      className='h-[240px] sm:h-[340px]'
+      className='sm:h-[340px]'
     >
       {serviceData.map((service, index) => {
         return (
           <SwiperSlide key={index}>
-            <div className='bg-[rgba(65,47,123,0.15)] h-max rounded-lg px-6 py-8 flex sm:flex-col gap-x-6 sm:gap-x-0 group cursor-pointer hover:bg-[rgba(89,65,169,0.15)]'>
+            <div className='bg-[rgba(65,47,123,0.15)] h-[300px] md:h-[500px] xl:h-max rounded-lg px-6 py-8 flex sm:flex-col gap-x-6 sm:gap-x-0 group cursor-pointer hover:bg-[rgba(89,65,169,0.15)]'>
               <div className='mb-4 text-4xl text-accent'>{service.icon}</div>
               <div className='mb-8'>
                 <div className='mb-2 text-lg'>{service.title}</div>

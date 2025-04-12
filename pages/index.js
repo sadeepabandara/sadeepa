@@ -3,10 +3,20 @@ import ProjectsBtn from '../components/ProjectsBtn';
 import { motion } from 'framer-motion';
 import { fadeIn } from '../variants';
 import { TypeAnimation } from 'react-type-animation';
+import Avatar from '../components/Avatar';
 
 const Home = () => {
   return (
     <div className='h-full'>
+      <motion.div
+        variants={fadeIn('right', 0.2)}
+        initial='hidden'
+        animate='show'
+        exit='hidden'
+        className='hidden absolute z-1 bottom-0 -left-[370px]'
+      >
+        <Avatar />
+      </motion.div>
       <div className='w-full h-full'>
         <div className='container flex flex-col justify-center h-full mx-auto text-center xl:pt-40 xl:text-left'>
           <motion.h1
@@ -59,8 +69,8 @@ const Home = () => {
           </motion.div>
         </div>
       </div>
-      <div className='w-[1450px] h-full absolute left-[250px] right-0 bottom-0'>
-        <div className='absolute w-full h-full bg-none xl:bg-anonymous xl:bg-cover xl:bg-right xl:bg-no-repeat mix-blend-color-dodge translate-z-0'></div>
+      <div className='w-[1450px] h-full absolute right-[-740px] md:right-[-440px] xl:left-[250px] xl:right-0 bottom-0'>
+        <div className='absolute w-full h-full bg-left bg-no-repeat bg-cover bg-anonymous xl:bg-right mix-blend-color-dodge translate-z-0'></div>
         <ParticlesContainer />
         <motion.div
           variants={fadeIn('up', 0.5)}

@@ -34,7 +34,7 @@ const Nav = () => {
   const pathname = router.pathname;
 
   return (
-    <nav className='fixed bottom-0 flex flex-col items-center mt-auto xl:justify-center gap-y-4 h-max xl:right-[2%] z-50 top-0 w-full xl:w-16 xl:max-w-md xl:h-screen'>
+    <nav className='fixed bottom-0 flex flex-col items-center mt-auto xl:justify-center gap-y-4 h-max xl:right-[2%] z-50 w-full xl:w-16 xl:max-w-md xl:h-screen'>
       {/* inner */}
       <div className='flex items-center justify-between w-full px-4 py-8 text-3xl xl:flex-col xl:justify-center gap-y-10 md:px-40 xl:px-0 h-[80px] xl:h-max bg-white/10 backdrop-blur-sm xl:text-xl xl:rounded-full'>
         {navData.map((link, index) => {

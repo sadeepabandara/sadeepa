@@ -118,14 +118,14 @@ const About = () => {
 
   return (
     <div className='h-full py-32 text-center bg-primary/30 xl:text-left'>
-      <BottomRightImg />
+      {/* <BottomRightImg /> */}
       <BottomRightImg />
       <motion.div
         variants={fadeIn('right', 0.2)}
         initial='hidden'
         animate='show'
         exit='hidden'
-        className='hidden absolute bottom-0 xl:flex -left-[370px]'
+        className='absolute z-1 bottom-0 xl:flex -left-[370px] md:-left-[450px] xl:-left-[370px]'
       >
         <Avatar />
       </motion.div>
@@ -157,15 +157,26 @@ const About = () => {
             initial='hidden'
             animate='show'
             exit='hidden'
-            className='max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 '
+            className='hidden md:block max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 '
           >
             My name is Sadeepa Bandara, a 24-year-old from Sri Lanka. I hold a
             BSc (Hons) in Computing from Coventry University, UK. As an
-            Investor, Entrepreneur, Developer, and Designer, I’m passionate
-            about innovation and growth. I’m currently pursuing an MSc in
+            Investor, Entrepreneur, Developer, and Designer, I&apos;m passionate
+            about innovation and growth. I&apos;m currently pursuing an MSc in
             Information Technology Management at Deakin University, Australia,
             while also studying forex trading and video editing to expand my
             skills and explore new opportunities.
+          </motion.p>
+          <motion.p
+            variants={fadeIn('right', 0.4)}
+            initial='hidden'
+            animate='show'
+            exit='hidden'
+            className='md:hidden max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 '
+          >
+            My name is Sadeepa Bandara, a 24-year-old from Sri Lanka.I&apos;m
+            currently pursuing an MSc in Information Technology Management at
+            Deakin University, Australia
           </motion.p>
           <motion.div
             variants={fadeIn('right', 0.6)}
@@ -242,9 +253,11 @@ const About = () => {
               return (
                 <div
                   key={itemIndex}
-                  className='flex flex-col items-center flex-1 text-white/60 md:flex-row max-w-max gap-x-2'
+                  className='z-50 flex flex-col items-center flex-1 text-white/60 md:flex-row max-w-max gap-x-2'
                 >
-                  <div className='mb-2 font-light md:mb-0'>{item.title}</div>
+                  <div className='mb-2 font-light z-[100] md:mb-0'>
+                    {item.title}
+                  </div>
                   <div className='hidden md:flex'>-</div>
                   <div>{item.stage}</div>
                   <div className='flex gap-x-4'>
