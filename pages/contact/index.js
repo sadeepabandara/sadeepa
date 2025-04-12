@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Contact = () => {
   const ref = useRef();
-  // const [success, setSuccess] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -81,27 +80,27 @@ const Contact = () => {
               <input
                 type='text'
                 name='name'
-                placeholder='name'
+                placeholder='Name'
                 className='input'
               />
               <input
                 type='email'
                 name='email'
-                placeholder='email'
+                placeholder='Email'
                 className='input'
               />
             </div>
             <input
               type='text'
               name='subject'
-              placeholder='subject'
+              placeholder='Subject'
               className='input'
             />
             <textarea
               name='message'
               cols='30'
               rows='10'
-              placeholder='message'
+              placeholder='Message'
               className='textarea'
             ></textarea>
             <button
