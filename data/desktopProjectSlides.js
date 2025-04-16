@@ -6,7 +6,7 @@ const projectSlides = {
           { title: 'title', path: '/web-5.png' },
           { title: 'title', path: '/web-3.png' },
           { title: 'title', path: '/web-4.png' },
-          { title: 'title', path: '/web-6.jpg' },
+          { title: 'title', path: '/web-6.png' },
         ],
       },
       {
