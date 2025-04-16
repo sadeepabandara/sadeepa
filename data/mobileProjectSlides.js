@@ -4,6 +4,7 @@ const mobileProjectSlides = {
       { images: [{ title: 'title', path: '/web-5.png' }] },
       { images: [{ title: 'title', path: '/web-3.png' }] },
       { images: [{ title: 'title', path: '/web-4.png' }] },
+      { images: [{ title: 'title', path: '/web-6.png' }] },
       { images: [{ title: 'title', path: '/web-1.jpg' }] },
       { images: [{ title: 'title', path: '/web-2.jpg' }] },
     ],
