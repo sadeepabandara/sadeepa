@@ -7,7 +7,6 @@ const ProjectsBtn = () => {
     <div className='mx-auto xl:mx-0'>
       <Link
         href={'./resume.pdf'}
-        download='resume'
         target='_blank'
         rel='noopener noreferrer'
         className='relative w-[185px] h-[185px] flex justify-center items-center bg-circleStar bg-cover bg-no-repeat group'
