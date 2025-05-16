@@ -18,7 +18,7 @@ const Socials = () => {
         <RiInstagramLine />
       </Link>
       <Link
-        href={'https://www.facebook.com/sadeepabandaraofficial'}
+        href={'https://www.facebook.com/szdeepa'}
         className='transition-all duration-300 hover:text-accent'
         target='_blank'
         rel='noopener noreferrer'
