@@ -8,7 +8,7 @@ const Services = () => {
     return (
         <>
             <Head>
-                <title>Sadeepa Bandara | Services</title>
+                <title>Sadeepa | Services</title>
                 <meta
                     name="description"
                     content="Explore a diverse range of services by Sadeepa Bandara — from web design and software development to painting, video editing, and more."

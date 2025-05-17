@@ -7,7 +7,7 @@ const Testimonials = () => {
     return (
         <>
             <Head>
-                <title>Sadeepa Bandara | Testimonials</title>
+                <title>Sadeepa | Testimonials</title>
                 <meta
                     name="description"
                     content="Hear what clients say about working with Sadeepa Bandara. Real testimonials reflecting trust, quality, and creative excellence."

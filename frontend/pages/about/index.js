@@ -4,6 +4,7 @@ import Avatar from "../../components/Avatar";
 import { motion } from "framer-motion";
 import { fadeIn } from "../../variants";
 import CountUp from "react-countup";
+import structuredData from "../../data/structuredData";
 
 // icons
 import {
@@ -120,7 +121,7 @@ const About = () => {
     return (
         <>
             <Head>
-                <title>Sadeepa Bandara | About</title>
+                <title>Sadeepa | About</title>
                 <meta
                     name="description"
                     content="Learn more about Sadeepa Bandara — skills, education, experience, and certifications of an investor, entrepreneur, developer, and designer."
@@ -156,6 +157,13 @@ const About = () => {
                     content="width=device-width, initial-scale=1"
                 />
                 <link rel="canonical" href="https://szdeepa.com/about" />
+
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(structuredData),
+                    }}
+                />
             </Head>
 
             <div className="h-full py-32 text-center bg-primary/30 xl:text-left">
@@ -192,6 +200,7 @@ const About = () => {
                                 className="absolute right-12 hidden h-16 bottom-[-20px] w-52 xl:block"
                                 src="./underline.svg"
                                 alt=""
+                                aria-hidden="true"
                             />
                         </div>
                         <motion.p
@@ -199,7 +208,7 @@ const About = () => {
                             initial="hidden"
                             animate="show"
                             exit="hidden"
-                            className="hidden md:block max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 "
+                            className="max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 line-clamp-3 md:line-clamp-none"
                         >
                             My name is Sadeepa Bandara, a 24-year-old from Sri
                             Lanka. I hold a BSc (Hons) in Computing from
@@ -210,18 +219,6 @@ const About = () => {
                             Management at Deakin University, Australia, while
                             also studying forex trading and video editing to
                             expand my skills and explore new opportunities.
-                        </motion.p>
-                        <motion.p
-                            variants={fadeIn("right", 0.4)}
-                            initial="hidden"
-                            animate="show"
-                            exit="hidden"
-                            className="md:hidden max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 "
-                        >
-                            My name is Sadeepa Bandara, a 24-year-old from Sri
-                            Lanka.I&apos;m currently pursuing an MSc in
-                            Information Technology Management at Deakin
-                            University, Australia
                         </motion.p>
                         <motion.div
                             variants={fadeIn("right", 0.6)}
@@ -324,7 +321,7 @@ const About = () => {
                                             {item.title}
                                         </div>
                                         <div className="hidden md:flex">-</div>
-                                        <div>{item.stage}</div>
+                                        {item.stage && <div>{item.stage}</div>}
                                         <div className="flex gap-x-4">
                                             {item.icons?.map(
                                                 (icon, iconIndex) => {

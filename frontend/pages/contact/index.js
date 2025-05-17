@@ -57,7 +57,7 @@ const Contact = () => {
     return (
         <>
             <Head>
-                <title>Sadeepa Bandara | Contact</title>
+                <title>Sadeepa | Contact</title>
                 <meta
                     name="description"
                     content="Get in touch with Sadeepa Bandara. Reach out for collaborations, opportunities, or inquiries related to development, design, and innovation."

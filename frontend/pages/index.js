@@ -10,14 +10,14 @@ const Home = () => {
     return (
         <div className="h-full">
             <Head>
-                <title>Sadeepa Bandara | Home</title>
+                <title>Sadeepa Bandara | Software Developer & Designer</title>
                 <meta
                     name="description"
                     content="Explore the digital portfolio of Sadeepa Bandara — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation."
                 />
                 <meta
                     name="keywords"
-                    content="Sadeepa Bandara, developer, portfolio, web development, entrepreneur, designer, investor"
+                    content="Sadeepa, Sadeepa Bandara, developer, portfolio, web development, entrepreneur, designer, investor"
                 />
                 <meta name="author" content="Sadeepa Bandara" />
                 <meta property="og:title" content="Sadeepa Bandara | Home" />
@@ -46,6 +46,27 @@ const Home = () => {
                     content="width=device-width, initial-scale=1"
                 />
                 <link rel="canonical" href="https://szdeepa.com" />
+
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "Person",
+                            name: "Sadeepa",
+                            description:
+                                "Explore the digital portfolio of Sadeepa Bandara — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation.",
+                            alternateName: "Sadeepa Bandara",
+                            image: "https://szdeepa.com/og-image.jpg",
+                            url: "https://szdeepa.com",
+                            sameAs: [
+                                "https://www.linkedin.com/in/sadeepa-bandara",
+                                "https://github.com/sadeepabandara",
+                            ],
+                            jobTitle: "Software Developer & Designer",
+                        }),
+                    }}
+                />
             </Head>
 
             <motion.div

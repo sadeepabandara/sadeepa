@@ -23,7 +23,7 @@ const Projects = () => {
     return (
         <>
             <Head>
-                <title>Sadeepa Bandara | Projects</title>
+                <title>Sadeepa | Projects</title>
                 <meta
                     name="description"
                     content="Explore Sadeepa Bandara's portfolio of web development, logo design, paintings, and illustrations. Each project tells a story of creativity and innovation."
