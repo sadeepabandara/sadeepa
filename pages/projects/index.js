@@ -1,0 +1,151 @@
+import { useState } from "react";
+import Head from "next/head";
+import ProjectSlider from "../../components/ProjectSlider";
+import Circles from "../../components/Circles";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../variants";
+
+const Projects = () => {
+    const [selectedCategory, setSelectedCategory] = useState("webDevelopment");
+
+    const categories = [
+        { id: "webDevelopment", label: "Web Development" },
+        // { id: 'mobileDevelopment', label: 'Mobile Development' },
+        { id: "logoDesign", label: "Logo Design" },
+        { id: "painting", label: "Painting" },
+        { id: "illustrations", label: "Illustrations" },
+    ];
+
+    const handleCategoryChange = (category) => {
+        setSelectedCategory(category);
+    };
+
+    return (
+        <>
+            <Head>
+                <title>Sadeepa | Projects</title>
+                <meta
+                    name="description"
+                    content="Explore Sadeepa Bandara's portfolio of web development, logo design, paintings, and illustrations. Each project tells a story of creativity and innovation."
+                />
+                <meta
+                    name="keywords"
+                    content="Sadeepa Bandara, projects, portfolio, web development, logo design, painting, illustrations"
+                />
+                <meta name="author" content="Sadeepa Bandara" />
+                <meta
+                    property="og:title"
+                    content="Sadeepa Bandara | Projects"
+                />
+                <meta
+                    property="og:description"
+                    content="Explore Sadeepa Bandara's creative portfolio — from web development to original artwork. See how innovation meets artistry."
+                />
+                <meta property="og:type" content="website" />
+                <meta
+                    property="og:url"
+                    content="https://szdeepa.com/projects"
+                />
+                <meta
+                    property="og:image"
+                    content="https://szdeepa.com/og-image.jpg"
+                />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:title"
+                    content="Sadeepa Bandara | Projects"
+                />
+                <meta
+                    name="twitter:description"
+                    content="Explore Sadeepa Bandara's creative portfolio — from web development to original artwork. See how innovation meets artistry."
+                />
+                <meta
+                    name="twitter:image"
+                    content="https://szdeepa.com/og-image.jpg"
+                />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1"
+                />
+                <link rel="canonical" href="https://szdeepa.com/projects" />
+            </Head>
+
+            <div className="flex items-center h-full bg-primary/30 py-36">
+                <Circles />
+                <div className="container mx-auto">
+                    <div className="flex flex-col xl:flex-row gap-x-8">
+                        <div className="flex text-center xl:w-[30vw] flex-col lg:text-left mb-4 xl:mb-0">
+                            <motion.h2
+                                variants={fadeIn("up", 0.3)}
+                                initial="hidden"
+                                animate="show"
+                                exit="hidden"
+                                className=" md:pt-0 h2 xl:mt-0 xl:mb-8"
+                            >
+                                My Projects{" "}
+                                <span className="text-accent">.</span>
+                            </motion.h2>
+                            {/* <motion.img
+                variants={fadeIn('up', 0.4)}
+                initial='hidden'
+                animate='show'
+                exit='hidden'
+                className='absolute right-9 hidden h-16 bottom-[-10px] w-60 xl:block'
+                src='./underline.svg'
+                alt=''
+              /> */}
+                            <motion.p
+                                variants={fadeIn("up", 0.5)}
+                                initial="hidden"
+                                animate="show"
+                                exit="hidden"
+                                className="mb-4 max-w-[400px] mx-auto lg:mx-0"
+                            >
+                                Discover my Projects page, where creativity
+                                meets innovation. Each project showcases my
+                                journey, transforming ideas into unique
+                                solutions. Dive in to see the possibilities
+                                unfold.
+                            </motion.p>
+                            <motion.div
+                                variants={fadeIn("up", 0.5)}
+                                initial="hidden"
+                                animate="show"
+                                exit="hidden"
+                                className="flex flex-wrap justify-center gap-2 lg:justify-start"
+                            >
+                                {categories.map((category) => (
+                                    <button
+                                        key={category.id}
+                                        onClick={() =>
+                                            handleCategoryChange(category.id)
+                                        }
+                                        className={`py-2 px-4 rounded-full border-2 border-accent ${
+                                            selectedCategory === category.id
+                                                ? "bg-accent text-white"
+                                                : "border-accent text-white"
+                                        }`}
+                                    >
+                                        {category.label}
+                                    </button>
+                                ))}
+                            </motion.div>
+                        </div>
+                        <motion.div
+                            variants={fadeIn("down", 0.6)}
+                            initial="hidden"
+                            animate="show"
+                            exit="hidden"
+                            className="w-full xl:max-w-[65%]"
+                        >
+                            <ProjectSlider category={selectedCategory} />
+                        </motion.div>
+                    </div>
+                </div>
+                {/* <Bulb /> */}
+            </div>
+        </>
+    );
+};
+
+export default Projects;
