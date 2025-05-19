@@ -60,17 +60,17 @@ const Contact = () => {
                 <title>Sadeepa | Contact</title>
                 <meta
                     name="description"
-                    content="Get in touch with Sadeepa Bandara. Reach out for collaborations, opportunities, or inquiries related to development, design, and innovation."
+                    content="Get in touch with Sadeepa. Reach out for collaborations, opportunities, or inquiries related to development, design, and innovation."
                 />
                 <meta
                     name="keywords"
-                    content="Sadeepa Bandara, contact, email, connect, developer, designer, freelancer, entrepreneur"
+                    content="Sadeepa, Sadeepa Bandara, contact, email, connect, developer, designer, freelancer, entrepreneur"
                 />
                 <meta name="author" content="Sadeepa Bandara" />
-                <meta property="og:title" content="Sadeepa Bandara | Contact" />
+                <meta property="og:title" content="Sadeepa | Contact" />
                 <meta
                     property="og:description"
-                    content="Connect with Sadeepa Bandara — developer, designer, and entrepreneur. Send a message to start a conversation."
+                    content="Connect with Sadeepa — developer, designer, and entrepreneur. Send a message to start a conversation."
                 />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://szdeepa.com/contact" />
@@ -79,13 +79,10 @@ const Contact = () => {
                     content="https://szdeepa.com/og-image.jpg"
                 />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta
-                    name="twitter:title"
-                    content="Sadeepa Bandara | Contact"
-                />
+                <meta name="twitter:title" content="Sadeepa | Contact" />
                 <meta
                     name="twitter:description"
-                    content="Connect with Sadeepa Bandara — developer, designer, and entrepreneur. Send a message to start a conversation."
+                    content="Connect with Sadeepa — developer, designer, and entrepreneur. Send a message to start a conversation."
                 />
                 <meta
                     name="twitter:image"

@@ -11,20 +11,17 @@ const Services = () => {
                 <title>Sadeepa | Services</title>
                 <meta
                     name="description"
-                    content="Explore a diverse range of services by Sadeepa Bandara — from web design and software development to painting, video editing, and more."
+                    content="Explore a diverse range of services by Sadeepa — from web design and software development to painting, video editing, and more."
                 />
                 <meta
                     name="keywords"
-                    content="Sadeepa Bandara, services, web design, SEO, content writing, software development, painting, video editing, game development"
+                    content="Sadeepa, Sadeepa Bandara, services, web design, SEO, content writing, software development, painting, video editing, game development"
                 />
                 <meta name="author" content="Sadeepa Bandara" />
-                <meta
-                    property="og:title"
-                    content="Sadeepa Bandara | Services"
-                />
+                <meta property="og:title" content="Sadeepa | Services" />
                 <meta
                     property="og:description"
-                    content="Discover the full range of services offered by Sadeepa Bandara — creative, technical, and artistic solutions tailored to your needs."
+                    content="Discover the full range of services offered by Sadeepa — creative, technical, and artistic solutions tailored to your needs."
                 />
                 <meta property="og:type" content="website" />
                 <meta
@@ -36,13 +33,10 @@ const Services = () => {
                     content="https://szdeepa.com/og-image.jpg"
                 />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta
-                    name="twitter:title"
-                    content="Sadeepa Bandara | Services"
-                />
+                <meta name="twitter:title" content="Sadeepa | Services" />
                 <meta
                     name="twitter:description"
-                    content="Explore a variety of professional services from Sadeepa Bandara — creative, digital, and development work customized for you."
+                    content="Explore a variety of professional services from Sadeepa — creative, digital, and development work customized for you."
                 />
                 <meta
                     name="twitter:image"

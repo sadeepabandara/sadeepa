@@ -10,20 +10,17 @@ const Testimonials = () => {
                 <title>Sadeepa | Testimonials</title>
                 <meta
                     name="description"
-                    content="Hear what clients say about working with Sadeepa Bandara. Real testimonials reflecting trust, quality, and creative excellence."
+                    content="Hear what clients say about working with Sadeepa. Real testimonials reflecting trust, quality, and creative excellence."
                 />
                 <meta
                     name="keywords"
-                    content="Sadeepa Bandara, testimonials, client feedback, reviews, reputation, services"
+                    content="Sadeepa, Sadeepa Bandara, testimonials, client feedback, reviews, reputation, services"
                 />
                 <meta name="author" content="Sadeepa Bandara" />
-                <meta
-                    property="og:title"
-                    content="Sadeepa Bandara | Testimonials"
-                />
+                <meta property="og:title" content="Sadeepa | Testimonials" />
                 <meta
                     property="og:description"
-                    content="Client testimonials about Sadeepa Bandara — trusted for development, design, and creative services."
+                    content="Client testimonials about Sadeepa — trusted for development, design, and creative services."
                 />
                 <meta property="og:type" content="website" />
                 <meta
@@ -35,13 +32,10 @@ const Testimonials = () => {
                     content="https://szdeepa.com/og-image.jpg"
                 />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta
-                    name="twitter:title"
-                    content="Sadeepa Bandara | Testimonials"
-                />
+                <meta name="twitter:title" content="Sadeepa | Testimonials" />
                 <meta
                     name="twitter:description"
-                    content="Discover what clients say about working with Sadeepa Bandara — authentic reviews and professional feedback."
+                    content="Discover what clients say about working with Sadeepa — authentic reviews and professional feedback."
                 />
                 <meta
                     name="twitter:image"

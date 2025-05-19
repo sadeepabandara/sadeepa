@@ -10,20 +10,23 @@ const Home = () => {
     return (
         <div className="h-full">
             <Head>
-                <title>Sadeepa Bandara | Software Developer & Designer</title>
+                <title>Sadeepa | Software Developer & Designer</title>
                 <meta
                     name="description"
-                    content="Explore the digital portfolio of Sadeepa Bandara — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation."
+                    content="Explore the digital portfolio of Sadeepa — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation."
                 />
                 <meta
                     name="keywords"
                     content="Sadeepa, Sadeepa Bandara, developer, portfolio, web development, entrepreneur, designer, investor"
                 />
                 <meta name="author" content="Sadeepa Bandara" />
-                <meta property="og:title" content="Sadeepa Bandara | Home" />
+                <meta
+                    property="og:title"
+                    content="Sadeepa | Software Developer & Designer"
+                />
                 <meta
                     property="og:description"
-                    content="Explore the digital portfolio of Sadeepa Bandara — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation."
+                    content="Explore the digital portfolio of Sadeepa — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation."
                 />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://szdeepa.com" />
@@ -32,10 +35,13 @@ const Home = () => {
                     content="https://szdeepa.com/og-image.jpg"
                 />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="Sadeepa Bandara | Home" />
+                <meta
+                    name="twitter:title"
+                    content="Sadeepa | Software Developer & Designer"
+                />
                 <meta
                     name="twitter:description"
-                    content="Explore the digital portfolio of Sadeepa Bandara — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation."
+                    content="Explore the digital portfolio of Sadeepa — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation."
                 />
                 <meta
                     name="twitter:image"
@@ -55,7 +61,7 @@ const Home = () => {
                             "@type": "Person",
                             name: "Sadeepa",
                             description:
-                                "Explore the digital portfolio of Sadeepa Bandara — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation.",
+                                "Explore the digital portfolio of Sadeepa — investor, entrepreneur, developer, and designer. Discover a curated journey of creativity and innovation.",
                             alternateName: "Sadeepa Bandara",
                             image: "https://szdeepa.com/og-image.jpg",
                             url: "https://szdeepa.com",

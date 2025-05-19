@@ -124,17 +124,17 @@ const About = () => {
                 <title>Sadeepa | About</title>
                 <meta
                     name="description"
-                    content="Learn more about Sadeepa Bandara — skills, education, experience, and certifications of an investor, entrepreneur, developer, and designer."
+                    content="Learn more about Sadeepa — skills, education, experience, and certifications of an investor, entrepreneur, developer, and designer."
                 />
                 <meta
                     name="keywords"
-                    content="Sadeepa Bandara, about, skills, education, experience, certifications, developer, designer, entrepreneur"
+                    content="Sadeepa, Sadeepa Bandara, about, skills, education, experience, certifications, developer, designer, entrepreneur"
                 />
                 <meta name="author" content="Sadeepa Bandara" />
-                <meta property="og:title" content="Sadeepa Bandara | About" />
+                <meta property="og:title" content="Sadeepa | About" />
                 <meta
                     property="og:description"
-                    content="Discover the skills, education, and experience of Sadeepa Bandara — a passionate investor, entrepreneur, developer, and designer."
+                    content="Discover the skills, education, and experience of Sadeepa — a passionate investor, entrepreneur, developer, and designer."
                 />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://szdeepa.com/about" />
@@ -143,10 +143,10 @@ const About = () => {
                     content="https://szdeepa.com/og-image.jpg"
                 />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="Sadeepa Bandara | About" />
+                <meta name="twitter:title" content="Sadeepa | About" />
                 <meta
                     name="twitter:description"
-                    content="Discover the skills, education, and experience of Sadeepa Bandara — a passionate investor, entrepreneur, developer, and designer."
+                    content="Discover the skills, education, and experience of Sadeepa — a passionate investor, entrepreneur, developer, and designer."
                 />
                 <meta
                     name="twitter:image"

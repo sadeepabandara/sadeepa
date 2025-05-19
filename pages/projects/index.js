@@ -26,20 +26,17 @@ const Projects = () => {
                 <title>Sadeepa | Projects</title>
                 <meta
                     name="description"
-                    content="Explore Sadeepa Bandara's portfolio of web development, logo design, paintings, and illustrations. Each project tells a story of creativity and innovation."
+                    content="Explore Sadeepa's portfolio of web development, logo design, paintings, and illustrations. Each project tells a story of creativity and innovation."
                 />
                 <meta
                     name="keywords"
-                    content="Sadeepa Bandara, projects, portfolio, web development, logo design, painting, illustrations"
+                    content="Sadeepa, Sadeepa Bandara, projects, portfolio, web development, logo design, painting, illustrations"
                 />
                 <meta name="author" content="Sadeepa Bandara" />
-                <meta
-                    property="og:title"
-                    content="Sadeepa Bandara | Projects"
-                />
+                <meta property="og:title" content="Sadeepa | Projects" />
                 <meta
                     property="og:description"
-                    content="Explore Sadeepa Bandara's creative portfolio — from web development to original artwork. See how innovation meets artistry."
+                    content="Explore Sadeepa's creative portfolio — from web development to original artwork. See how innovation meets artistry."
                 />
                 <meta property="og:type" content="website" />
                 <meta
@@ -51,13 +48,10 @@ const Projects = () => {
                     content="https://szdeepa.com/og-image.jpg"
                 />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta
-                    name="twitter:title"
-                    content="Sadeepa Bandara | Projects"
-                />
+                <meta name="twitter:title" content="Sadeepa | Projects" />
                 <meta
                     name="twitter:description"
-                    content="Explore Sadeepa Bandara's creative portfolio — from web development to original artwork. See how innovation meets artistry."
+                    content="Explore Sadeepa's creative portfolio — from web development to original artwork. See how innovation meets artistry."
                 />
                 <meta
                     name="twitter:image"
