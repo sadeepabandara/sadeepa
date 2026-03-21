@@ -33,12 +33,12 @@ export default function Ticker() {
                         onMouseEnter={(e) => {
                             (
                                 e.currentTarget as HTMLElement
-                            ).style.WebkitTextStroke = '1.5px #ff5e1a';
+                            ).style.webkitTextStroke = '1.5px #ff5e1a';
                         }}
                         onMouseLeave={(e) => {
                             (
                                 e.currentTarget as HTMLElement
-                            ).style.WebkitTextStroke =
+                            ).style.webkitTextStroke =
                                 '1.5px rgba(245,240,232,0.25)';
                         }}
                     >
