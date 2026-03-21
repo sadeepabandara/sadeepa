@@ -51,16 +51,19 @@ export default function Hero({ animate }: HeroProps) {
             delay: 0.88,
         });
         gsap.to(scrollRef.current, { opacity: 1, duration: 1, delay: 1.2 });
-        gsap.to(imgRef.current?.querySelector('img'), {
-            yPercent: 16,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: '#hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true,
-            },
-        });
+        const heroImg = imgRef.current?.querySelector('img');
+        if (heroImg) {
+            gsap.to(heroImg, {
+                yPercent: 16,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true,
+                },
+            });
+        }
         gsap.to(contentRef.current, {
             yPercent: 10,
             opacity: 0,

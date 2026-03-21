@@ -11,7 +11,7 @@ import Services from '@/components/Services';
 import Projects from '@/components/Projects';
 import TechStack from '@/components/TechStack';
 import Education from '@/components/Education';
-import FlappyGame from '@/components/Flappygame';
+import FlappyGame from '@/components/FlappyGame';
 import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import type { Project } from '@/components/Projects';
