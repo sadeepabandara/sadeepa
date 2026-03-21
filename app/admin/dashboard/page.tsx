@@ -871,11 +871,13 @@ function ServicesTab() {
                 .update(payload)
                 .eq('id', editing.id);
         else
-            await supabase.from('services').insert({
-                ...payload,
-                sort_order: rows.length + 1,
-                active: true,
-            });
+            await supabase
+                .from('services')
+                .insert({
+                    ...payload,
+                    sort_order: rows.length + 1,
+                    active: true,
+                });
         setSaving(false);
         setModal(false);
         load();
@@ -1398,11 +1400,13 @@ function TechStackTab() {
                 .update(payload)
                 .eq('id', editing.id);
         else
-            await supabase.from('tech_stack').insert({
-                ...payload,
-                sort_order: rows.length + 1,
-                active: true,
-            });
+            await supabase
+                .from('tech_stack')
+                .insert({
+                    ...payload,
+                    sort_order: rows.length + 1,
+                    active: true,
+                });
         setSaving(false);
         setModal(false);
         load();
@@ -2403,7 +2407,6 @@ export default function Dashboard() {
                             style={{
                                 width: '100%',
                                 padding: '11px 24px',
-                                background: 'none',
                                 border: 'none',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -2426,7 +2429,7 @@ export default function Dashboard() {
                                 background:
                                     tab === t.id
                                         ? 'rgba(255,94,26,0.05)'
-                                        : ('none' as any),
+                                        : 'transparent',
                             }}
                         >
                             {t.label}
