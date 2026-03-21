@@ -190,6 +190,30 @@ export interface Database {
                     Database['public']['Tables']['tech_stack']['Insert']
                 >;
             };
+            quote: {
+                Row: {
+                    id: string;
+                    text: string;
+                    author: string;
+                    updated_at: string;
+                };
+                Insert: {
+                    id?: string;
+                    text: string;
+                    author: string;
+                    updated_at?: string;
+                };
+                Update: Partial<
+                    Database['public']['Tables']['quote']['Insert']
+                >;
+            };
+            flappy_scores: {
+                Row: { id: string; score: number; created_at: string };
+                Insert: { id?: string; score: number; created_at?: string };
+                Update: Partial<
+                    Database['public']['Tables']['flappy_scores']['Insert']
+                >;
+            };
         };
         Views: Record<string, never>;
         Functions: Record<string, never>;
