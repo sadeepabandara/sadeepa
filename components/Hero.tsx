@@ -19,12 +19,15 @@ export default function Hero({ animate }: HeroProps) {
 
     useEffect(() => {
         if (!animate) return;
-        gsap.to(imgRef.current?.querySelector('img'), {
-            scale: 1,
-            duration: 2.4,
-            ease: 'power3.out',
-            delay: 0.05,
-        });
+        const img = imgRef.current?.querySelector('img');
+        if (img) {
+            gsap.to(img, {
+                scale: 1,
+                duration: 2.4,
+                ease: 'power3.out',
+                delay: 0.05,
+            });
+        }
         document.querySelectorAll('.hero-line span').forEach((el, i) => {
             gsap.to(el, {
                 y: '0%',

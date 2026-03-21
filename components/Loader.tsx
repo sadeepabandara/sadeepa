@@ -344,7 +344,7 @@ export default function Loader({ onComplete }: LoaderProps) {
                     className="font-mono text-[11px] tracking-[0.25em] uppercase"
                     style={{ color: 'rgba(245,240,232,0.25)' }}
                 >
-                    sadeepa.me | full-stack
+                    sadeepa.me | portfolio
                 </span>
                 <div
                     className="w-16 h-px"
