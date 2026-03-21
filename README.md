@@ -1,53 +1,86 @@
-# 💼 Sadeepa Bandara — Personal Portfolio Website
+# Sajan Portfolio — Next.js + TypeScript + Tailwind + Supabase
 
-Welcome to the source code of my personal portfolio website!  
-This is where I showcase my projects, skills, experiences, and provide a way to connect with me.
+## Tech Stack
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Animations**: GSAP 3 + ScrollTrigger
+- **Backend / DB**: Supabase (PostgreSQL + RLS)
 
-🌐 [Live Site](https://szdeepa.com)
+## Getting Started
 
----
-
-## 🚀 Tech Stack
-
-- **Frontend:** React, TypeScript, Tailwind CSS
-- **Animations & Effects:** Framer Motion, Custom Cursor
-- **Deployment:** AWS Amplify
-- **Forms & Data Handling:** React Hook Form, React Query
-- **Contact Form:** EmailJS
-
----
-
-## ⚙️ Installation
-
-To run this locally:
-
+### 1. Install dependencies
 ```bash
-# Clone the repo
-git clone https://github.com/sadeepabandara/szdeepa.git
-
-# Navigate into the project folder
-cd szdeepa
-
-# Install dependencies
 npm install
-
-# Start the development server
-npm run dev
-
-📸 Features
-⚡ Fast and responsive across all devices
-🎨 Modern design with hover effects
-🎬 Smooth animations powered by Framer Motion
-📨 Fully functional contact form integrated with EmailJS
-🧩 Modular code structure with reusable components
-🌐 Deployed via AWS Amplify for stability and scalability
-
-📬 Contact
-I'm Sadeepa Bandara, a passionate frontend developer based in Australia 🇦🇺
-Feel free to connect with me or reach out for collaborations!
-📫 Email: sadeepadexter@gmail.com
-🌐 Website: szdeepa.com
-💼 LinkedIn: linkedin.com/in/sadeepa-bandara
 ```
 
-“Keep coding, keep growing. Every line you write is a step toward mastery.” – Szdeepa
+### 2. Set up Supabase
+1. Create a free project at [supabase.com](https://supabase.com)
+2. Go to **SQL Editor** and run the contents of `supabase/schema.sql`
+3. Copy your project URL and anon key from **Settings → API**
+
+### 3. Configure environment
+```bash
+cp .env.local.example .env.local
+```
+Fill in `.env.local`:
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+### 4. Run dev server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000)
+
+## Project Structure
+```
+sajan-portfolio/
+├── app/
+│   ├── layout.tsx          # Root layout, fonts, metadata
+│   ├── globals.css         # Tailwind + global styles
+│   ├── page.tsx            # Server component — fetches Supabase data
+│   ├── PageClient.tsx      # Client orchestrator (loader, animations)
+│   └── api/
+│       ├── contact/route.ts    # POST → saves message to Supabase
+│       ├── projects/route.ts   # GET → returns projects
+│       └── testimonials/route.ts
+├── components/
+│   ├── Cursor.tsx
+│   ├── Loader.tsx
+│   ├── Nav.tsx
+│   ├── Hero.tsx            # Uses /public/sajan.png
+│   ├── Ticker.tsx
+│   ├── About.tsx           # Uses /public/sajan.png
+│   ├── Services.tsx        # Horizontal scroll
+│   ├── Projects.tsx        # Data from Supabase (fallback included)
+│   ├── Testimonials.tsx    # Data from Supabase (fallback included)
+│   └── Contact.tsx         # Form → POST /api/contact → Supabase
+├── lib/
+│   └── supabase.ts         # Supabase client
+├── types/
+│   └── database.ts         # Full DB type definitions
+├── public/
+│   └── sajan.png           # Your photo
+└── supabase/
+    └── schema.sql          # Run in Supabase SQL editor
+```
+
+## Supabase Tables
+| Table | Purpose |
+|---|---|
+| `contact_messages` | Form submissions (name, email, service, message) |
+| `projects` | Portfolio projects (editable from Supabase dashboard) |
+| `testimonials` | Client testimonials (editable from Supabase dashboard) |
+
+## Updating Content
+Edit projects and testimonials directly from the **Supabase Table Editor** — no code changes needed. The site fetches live data on every request.
+
+## Deploy
+```bash
+npm run build
+```
+Deploy to **Vercel** — add your env vars in the Vercel dashboard.

@@ -1,0 +1,18 @@
+.admin-root,
+.admin-root * {
+    cursor: auto !important;
+}
+.admin-root button,
+.admin-root a,
+.admin-root select,
+.admin-root input[type='submit'],
+.admin-root input[type='button'],
+.admin-root input[type='color'] {
+    cursor: pointer !important;
+}
+.admin-root input[type='text'],
+.admin-root input[type='email'],
+.admin-root input[type='password'],
+.admin-root textarea {
+    cursor: text !important;
+}
