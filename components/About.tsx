@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
+import CountUp from '@/components/CountUp';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -200,7 +201,7 @@ export default function About({ data }: { data?: AboutData | null }) {
                             style={{ borderColor: 'var(--line)' }}
                         >
                             <div className="text-[32px] md:text-[42px] font-extrabold tracking-[-0.03em] leading-none mb-1.5 text-or">
-                                {s.num}
+                                <CountUp value={s.num} />
                             </div>
                             <div className="text-[9px] md:text-[10px] tracking-[0.15em] uppercase text-fg/25">
                                 {s.label}

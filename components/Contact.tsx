@@ -83,6 +83,27 @@ export default function Contact() {
                 },
             );
         });
+
+        // Stagger form fields when form enters view
+        const formFields = sectionRef.current?.querySelectorAll('.form-field');
+        if (formFields && formFields.length) {
+            gsap.fromTo(
+                formFields,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    ease: 'power3.out',
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: formFields[0],
+                        start: 'top 88%',
+                        toggleActions: 'play none none none',
+                    },
+                },
+            );
+        }
     }, []);
 
     async function handleSubmit(e: React.FormEvent) {
@@ -199,7 +220,7 @@ export default function Contact() {
                             className="px-6 md:px-9 py-6 md:py-8"
                         >
                             {/* Name + Email: stacked on mobile, 2-col on desktop */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-[18px]">
+                            <div className="form-field grid grid-cols-1 sm:grid-cols-2 gap-4 mb-[18px]">
                                 <div>
                                     <label className="block text-[10px] tracking-[0.2em] uppercase text-fg/35 mb-2 font-semibold">
                                         Name
@@ -225,7 +246,7 @@ export default function Contact() {
                                     />
                                 </div>
                             </div>
-                            <div className="mb-[18px]">
+                            <div className="form-field mb-[18px]">
                                 <label className="block text-[10px] tracking-[0.2em] uppercase text-fg/35 mb-2 font-semibold">
                                     Service
                                 </label>
@@ -243,7 +264,7 @@ export default function Contact() {
                                     <option>Other</option>
                                 </select>
                             </div>
-                            <div className="mb-[18px]">
+                            <div className="form-field mb-[18px]">
                                 <label className="block text-[10px] tracking-[0.2em] uppercase text-fg/35 mb-2 font-semibold">
                                     Message
                                 </label>

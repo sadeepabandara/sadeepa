@@ -161,7 +161,7 @@ export default function Services({ data }: ServicesProps) {
             >
                 <div className="px-14 mb-11 flex justify-between items-end flex-shrink-0">
                     <div>
-                        <div className="fu text-[10px] tracking-[0.38em] uppercase text-or flex items-center gap-3 mb-3 mt-5">
+                        <div className="fu text-[10px] tracking-[0.38em] uppercase text-or flex items-center gap-3 mb-3">
                             <span className="w-[18px] h-px bg-or" />
                             What I Do
                         </div>
@@ -199,6 +199,31 @@ export default function Services({ data }: ServicesProps) {
                             <div
                                 key={s.num}
                                 className="svc-card w-[360px] h-[440px] bg-bg3 border border-fg/[0.06] p-[40px_34px] flex-shrink-0 flex flex-col justify-between relative overflow-hidden transition-[background,border-color] duration-[400ms] hover:bg-bg4 hover:border-or/20"
+                                onMouseMove={(e) => {
+                                    const el = e.currentTarget;
+                                    const rect = el.getBoundingClientRect();
+                                    const x =
+                                        (e.clientX - rect.left) / rect.width -
+                                        0.5;
+                                    const y =
+                                        (e.clientY - rect.top) / rect.height -
+                                        0.5;
+                                    gsap.to(el, {
+                                        rotateY: x * 12,
+                                        rotateX: -y * 12,
+                                        transformPerspective: 800,
+                                        duration: 0.4,
+                                        ease: 'power2.out',
+                                    });
+                                }}
+                                onMouseLeave={(e) => {
+                                    gsap.to(e.currentTarget, {
+                                        rotateY: 0,
+                                        rotateX: 0,
+                                        duration: 0.6,
+                                        ease: 'elastic.out(1, 0.4)',
+                                    });
+                                }}
                             >
                                 <div>
                                     <div className="font-mono text-[10px] tracking-[0.2em] text-or/40 mb-6">

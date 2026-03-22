@@ -1,4 +1,6 @@
 'use client';
+import { useRef } from 'react';
+import gsap from 'gsap';
 
 const items = [
     'UI Design',
@@ -16,12 +18,49 @@ const items = [
 ];
 
 export default function Ticker() {
+    const trackRef = useRef<HTMLDivElement>(null);
+    const tweenRef = useRef<gsap.core.Tween | null>(null);
+
+    const handleMouseEnter = () => {
+        // Slow down on hover
+        if (tweenRef.current)
+            gsap.to(tweenRef.current, {
+                timeScale: 0.15,
+                duration: 0.6,
+                ease: 'power2.out',
+            });
+    };
+
+    const handleMouseLeave = () => {
+        // Speed back up
+        if (tweenRef.current)
+            gsap.to(tweenRef.current, {
+                timeScale: 1,
+                duration: 0.8,
+                ease: 'power2.inOut',
+            });
+    };
+
+    // Start the marquee tween once ref is available
+    const setTrack = (el: HTMLDivElement | null) => {
+        (trackRef as any).current = el;
+        if (!el || tweenRef.current) return;
+        tweenRef.current = gsap.to(el, {
+            xPercent: -50,
+            duration: 22,
+            ease: 'none',
+            repeat: -1,
+        });
+    };
+
     return (
         <div
             className="border-t border-b overflow-hidden bg-bg2 py-6"
             style={{ borderColor: 'var(--line)' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         >
-            <div className="ticker-track flex w-max">
+            <div ref={setTrack} className="ticker-track flex w-max">
                 {items.map((item, i) => (
                     <span
                         key={i}

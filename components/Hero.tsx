@@ -1,10 +1,60 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import ScrambleText from '@/components/ScrambleText';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Magnetic button component
+function MagneticBtn({
+    href,
+    children,
+    solid = false,
+}: {
+    href: string;
+    children: React.ReactNode;
+    solid?: boolean;
+}) {
+    const ref = useRef<HTMLAnchorElement>(null);
+
+    const onMove = (e: React.MouseEvent) => {
+        const el = ref.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = (e.clientX - cx) * 0.35;
+        const dy = (e.clientY - cy) * 0.35;
+        gsap.to(el, { x: dx, y: dy, duration: 0.3, ease: 'power2.out' });
+    };
+
+    const onLeave = () => {
+        gsap.to(ref.current, {
+            x: 0,
+            y: 0,
+            duration: 0.5,
+            ease: 'elastic.out(1, 0.4)',
+        });
+    };
+
+    return (
+        <a
+            ref={ref}
+            href={href}
+            onMouseMove={onMove}
+            onMouseLeave={onLeave}
+            className={`inline-flex items-center gap-2 text-[10px] md:text-[11px] tracking-[0.14em] uppercase font-bold px-5 md:px-[26px] py-3 md:py-[14px] no-underline ${
+                solid
+                    ? 'bg-or text-bg hover:bg-or/90'
+                    : 'border border-fg/15 text-fg hover:border-or hover:text-or'
+            } transition-colors duration-300`}
+        >
+            {children}
+        </a>
+    );
+}
 
 interface HeroProps {
     animate: boolean;
@@ -120,22 +170,40 @@ export default function Hero({ animate }: HeroProps) {
                 </div>
 
                 <h1 className="text-[clamp(44px,7.5vw,138px)] font-extrabold leading-[0.88] tracking-[-0.04em] mb-7 md:mb-10">
-                    <span className="hero-line blockoverflow-hidden">
-                        <span>Investor</span>
-                    </span>
-                    <span className="hero-line block overflow-hidden text-or">
-                        <span>Designer</span>
-                    </span>
-                    <span
-                        className="hero-line block overflow-hidden"
+                    <div className="hero-line overflow-hidden">
+                        <div>
+                            <ScrambleText
+                                text="Investor"
+                                delay={200}
+                                duration={900}
+                            />
+                        </div>
+                    </div>
+                    <div className="hero-line overflow-hidden text-or">
+                        <div>
+                            <ScrambleText
+                                text="Designer"
+                                delay={400}
+                                duration={900}
+                            />
+                        </div>
+                    </div>
+                    <div
+                        className="hero-line overflow-hidden"
                         style={{
                             color: 'rgba(245,240,232,0.18)',
                             fontStyle: 'italic',
                             fontWeight: 400,
                         }}
                     >
-                        <span>&amp; Developer</span>
-                    </span>
+                        <div>
+                            <ScrambleText
+                                text="& Developer"
+                                delay={600}
+                                duration={900}
+                            />
+                        </div>
+                    </div>
                 </h1>
 
                 <div className="flex flex-col md:flex-row md:items-end gap-6 md:gap-14">
@@ -151,18 +219,12 @@ export default function Hero({ animate }: HeroProps) {
                         ref={btnsRef}
                         className="flex gap-3 flex-shrink-0 opacity-0 translate-y-4"
                     >
-                        <a
-                            href="#projects"
-                            className="inline-flex items-center gap-2 text-[10px] md:text-[11px] tracking-[0.14em] uppercase font-bold px-5 md:px-[26px] py-3 md:py-[14px] bg-or text-bg no-underline transition-all duration-300 hover:bg-or2 hover:-translate-y-0.5"
-                        >
+                        <MagneticBtn href="#projects" solid>
                             View Work →
-                        </a>
-                        <a
-                            href="#contact"
-                            className="inline-flex items-center gap-2 text-[10px] md:text-[11px] tracking-[0.14em] uppercase font-bold px-5 md:px-[26px] py-3 md:py-[14px] border border-fg/15 text-fg no-underline transition-all duration-300 hover:border-or hover:text-or"
-                        >
+                        </MagneticBtn>
+                        <MagneticBtn href="#contact">
                             Let&apos;s Talk
-                        </a>
+                        </MagneticBtn>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,8 @@
 'use client';
 import { useState, useCallback } from 'react';
 import Cursor from '@/components/Cursor';
+import SmoothScroll from '@/components/SmoothScroll';
+import CursorTrail from '@/components/CursorTrail';
 import Loader from '@/components/Loader';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
@@ -79,6 +81,8 @@ export default function PageClient({
 
     return (
         <>
+            <SmoothScroll />
+            <CursorTrail />
             <Cursor />
             {!loaded && <Loader onComplete={onLoaderDone} />}
             <Nav visible={loaded} />
