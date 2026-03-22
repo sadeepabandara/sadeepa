@@ -11,8 +11,7 @@ const PIPE_W = 52,
     PIPE_GAP = 155,
     PIPE_SPEED = 2.8;
 
-const SB_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SB_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+// Scores go through /api/score — never directly to Supabase from browser
 
 interface Pipe {
     x: number;
@@ -279,36 +278,25 @@ export default function FlappyGame() {
     const [best, setBest] = useState(0);
     const bestRef = useRef(0);
 
-    // Load global best once on mount
+    // Load global best via our own API — no Supabase keys in browser
     useEffect(() => {
-        fetch(
-            `${SB_URL}/rest/v1/flappy_scores?select=score&order=score.desc&limit=1`,
-            {
-                headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
-            },
-        )
+        fetch('/api/score')
             .then((r) => r.json())
             .then((d) => {
-                const b = d?.[0]?.score ?? 0;
+                const b = d?.globalBest ?? 0;
                 bestRef.current = b;
                 setBest(b);
             })
             .catch(() => {});
     }, []);
 
-    // Called only when a new global best is set
+    // Called only when a new global best is set — goes through server API
     const onNewBest = useCallback((score: number) => {
         bestRef.current = score;
         setBest(score);
-        // Save to Supabase — fire and forget
-        fetch(`${SB_URL}/rest/v1/flappy_scores`, {
+        fetch('/api/score', {
             method: 'POST',
-            headers: {
-                apikey: SB_KEY,
-                Authorization: `Bearer ${SB_KEY}`,
-                'Content-Type': 'application/json',
-                Prefer: 'return=minimal',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ score }),
         }).catch(() => {});
     }, []);
