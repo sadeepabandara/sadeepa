@@ -87,16 +87,26 @@ function ProjectPopup({
     const currentRef = useRef<HTMLDivElement>(null);
     const prevRef = useRef<HTMLDivElement>(null);
 
-    // Follow mouse
+    // Follow mouse using quickTo for instant lag-free tracking
+    const quickX = useRef<((v: number) => void) | null>(null);
+    const quickY = useRef<((v: number) => void) | null>(null);
+
     useEffect(() => {
         const popup = popupRef.current;
         if (!popup) return;
-        gsap.to(popup, {
-            x: mouseX + 28,
-            y: mouseY - 140,
-            duration: 0.55,
+        quickX.current = gsap.quickTo(popup, 'x', {
+            duration: 0.35,
             ease: 'power3.out',
         });
+        quickY.current = gsap.quickTo(popup, 'y', {
+            duration: 0.35,
+            ease: 'power3.out',
+        });
+    }, []);
+
+    useEffect(() => {
+        if (quickX.current) quickX.current(mouseX + 28);
+        if (quickY.current) quickY.current(mouseY - 140);
     }, [mouseX, mouseY]);
 
     // Show / hide
@@ -286,7 +296,7 @@ export default function Projects({
     const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
     const [prevProject, setPrevProject] = useState<Project | null>(null);
     const [popupVisible, setPopupVisible] = useState(false);
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [mousePos, setMousePos] = useState({ x: -9999, y: -9999 });
     const [direction, setDirection] = useState<'up' | 'down'>('down');
     const projectIndexRef = useRef<number>(-1);
 
@@ -330,6 +340,21 @@ export default function Projects({
         setMousePos({ x: e.clientX, y: e.clientY });
     }, []);
 
+    // Global pointermove — update position AND hide if cursor left all project rows
+    useEffect(() => {
+        const onPointerMove = (e: PointerEvent) => {
+            setMousePos({ x: e.clientX, y: e.clientY });
+            // Check if cursor is still over a project row
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            const overRow = el?.closest('.proj-item');
+            if (!overRow) {
+                setPopupVisible(false);
+            }
+        };
+        window.addEventListener('pointermove', onPointerMove);
+        return () => window.removeEventListener('pointermove', onPointerMove);
+    }, []);
+
     return (
         <>
             <ProjectPopup
@@ -347,6 +372,7 @@ export default function Projects({
                 className="px-6 md:px-14 py-16 md:py-[110px] bg-bg2 border-t"
                 style={{ borderColor: 'var(--line)' }}
                 onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
             >
                 <div className="fu text-[10px] tracking-[0.38em] uppercase text-or mb-8 flex items-center gap-3">
                     <span className="w-[18px] h-px bg-or" />
