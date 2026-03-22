@@ -161,7 +161,7 @@ export default function Services({ data }: ServicesProps) {
             >
                 <div className="px-14 mb-11 flex justify-between items-end flex-shrink-0">
                     <div>
-                        <div className="fu text-[10px] tracking-[0.38em] uppercase text-or flex items-center gap-3 mb-3">
+                        <div className="fu text-[10px] tracking-[0.38em] uppercase text-or flex items-center gap-3 mb-3 mt-5">
                             <span className="w-[18px] h-px bg-or" />
                             What I Do
                         </div>
