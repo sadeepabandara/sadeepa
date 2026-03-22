@@ -149,7 +149,7 @@ export default function Education({ data }: { data?: EduItem[] }) {
                 style={{ background: 'var(--bg)', borderColor: 'var(--line)' }}
             >
                 {/* Header — fixed top left */}
-                <div className="absolute top-0 left-0 px-14 pt-20 z-10">
+                <div className="absolute top-0 left-0 px-14 pt-24 z-10">
                     <div className="text-[10px] tracking-[0.38em] uppercase text-or mb-3 flex items-center gap-3">
                         <span className="w-[18px] h-px bg-or" />
                         Education
@@ -166,7 +166,7 @@ export default function Education({ data }: { data?: EduItem[] }) {
                 {/* Timeline area — pushed down to avoid header overlap */}
                 <div
                     className="absolute inset-0 flex flex-col justify-center"
-                    style={{ paddingTop: 160 }}
+                    style={{ paddingTop: 200 }}
                 >
                     <div className="relative w-full" style={{ height: 380 }}>
                         {/* Background line */}
