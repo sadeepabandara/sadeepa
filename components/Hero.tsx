@@ -67,7 +67,14 @@ export default function Hero({ animate }: HeroProps) {
     const btnsRef = useRef<HTMLDivElement>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
-    const [soundEnabled, setSoundEnabled] = useState(false);
+    const [soundEnabled, setSoundEnabled] = useState(() => {
+        // Check localStorage for user's sound preference, default to true for autoplay
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('soundEnabled');
+            return saved !== null ? saved === 'true' : true;
+        }
+        return true;
+    });
     const [autoplayBlocked, setAutoplayBlocked] = useState(false);
 
     const tryStartAudio = async () => {
@@ -99,6 +106,11 @@ export default function Hero({ animate }: HeroProps) {
         const audio = audioRef.current;
         const nextEnabled = !soundEnabled;
         setSoundEnabled(nextEnabled);
+
+        // Save preference to localStorage
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('soundEnabled', String(nextEnabled));
+        }
 
         if (!audio) return;
 
@@ -352,7 +364,6 @@ export default function Hero({ animate }: HeroProps) {
             <audio
                 ref={audioRef}
                 loop
-                autoPlay
                 muted={!soundEnabled}
                 playsInline
                 preload="auto"
