@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import ScrambleText from '@/components/ScrambleText';
 import Image from 'next/image';
 import gsap from 'gsap';
@@ -67,6 +67,7 @@ export default function Hero({ animate }: HeroProps) {
     const btnsRef = useRef<HTMLDivElement>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
+    const interactionListenerSetRef = useRef(false);
     const [soundEnabled, setSoundEnabled] = useState(() => {
         // Check localStorage for user's sound preference, default to true for autoplay
         if (typeof window !== 'undefined') {
@@ -77,30 +78,69 @@ export default function Hero({ animate }: HeroProps) {
     });
     const [autoplayBlocked, setAutoplayBlocked] = useState(false);
 
-    const tryStartAudio = async () => {
+    const tryStartAudio = async (unmuted = true) => {
         const audio = audioRef.current;
         if (!audio) return;
 
         try {
-            audio.muted = false;
+            audio.muted = !unmuted;
             audio.volume = 0.40;
             await audio.play();
-            setAutoplayBlocked(false);
+            if (unmuted) {
+                setAutoplayBlocked(false);
+            }
+            return true;
         } catch {
-            // Keep muted fallback active and ask for a tap.
-            audio.muted = true;
-            audio.volume = 0;
-            setAutoplayBlocked(true);
+            // If unmuted play failed, try to play muted (for policy browsers)
+            if (unmuted) {
+                try {
+                    audio.muted = true;
+                    await audio.play();
+                    setAutoplayBlocked(true);
+                    return true;
+                } catch {
+                    // Even muted playback failed
+                    setAutoplayBlocked(true);
+                    return false;
+                }
+            }
+            return false;
         }
     };
 
-    // Start audio after loader; if blocked, show tap prompt.
+    // Handle first user interaction to unmute audio if autoplay was blocked
+    const handleFirstInteraction = useCallback(async () => {
+        const audio = audioRef.current;
+        if (!audio || !soundEnabled || !autoplayBlocked) return;
+
+        await tryStartAudio(true);
+    }, [soundEnabled, autoplayBlocked]);
+
+    // Start audio after loader; if blocked, set up interaction listener.
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio || !soundEnabled || !animate) return;
 
-        void tryStartAudio();
+        // Try to autoplay immediately (works for no-policy browsers)
+        void tryStartAudio(true);
     }, [animate, soundEnabled]);
+
+    // Set up interaction listeners when autoplay is blocked
+    useEffect(() => {
+        if (!autoplayBlocked || interactionListenerSetRef.current) return;
+
+        interactionListenerSetRef.current = true;
+        document.addEventListener('click', handleFirstInteraction, { once: true });
+        document.addEventListener('touchstart', handleFirstInteraction, { once: true });
+        document.addEventListener('keydown', handleFirstInteraction, { once: true });
+
+        return () => {
+            document.removeEventListener('click', handleFirstInteraction);
+            document.removeEventListener('touchstart', handleFirstInteraction);
+            document.removeEventListener('keydown', handleFirstInteraction);
+            interactionListenerSetRef.current = false;
+        };
+    }, [autoplayBlocked, handleFirstInteraction]);
 
     const toggleSound = async () => {
         const audio = audioRef.current;
@@ -115,16 +155,15 @@ export default function Hero({ animate }: HeroProps) {
         if (!audio) return;
 
         if (!nextEnabled) {
-            // Keep timeline running silently so resume continues from same point.
+            // Mute and keep playing silently
             audio.muted = true;
             audio.volume = 0;
             setAutoplayBlocked(false);
             return;
         }
 
-        if (animate) {
-            await tryStartAudio();
-        }
+        // User toggled sound ON - try to play unmuted
+        await tryStartAudio(true);
     };
 
     useEffect(() => {
@@ -364,7 +403,8 @@ export default function Hero({ animate }: HeroProps) {
             <audio
                 ref={audioRef}
                 loop
-                muted={!soundEnabled}
+                autoPlay
+                muted={true}
                 playsInline
                 preload="auto"
                 src="/ambient.mp3"
