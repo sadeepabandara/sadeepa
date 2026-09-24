@@ -192,6 +192,7 @@ export default function Projects({ projects = fallbackProjects }: ProjectsProps)
     const [popupVisible, setPopupVisible] = useState(false);
     const [mousePos, setMousePos] = useState({ x: -9999, y: -9999 });
     const [direction, setDirection] = useState<'up' | 'down'>('down');
+    const [activeProject, setActiveProject] = useState<Project | null>(null);
     const projectIndexRef = useRef<number>(-1);
 
     useEffect(() => {
