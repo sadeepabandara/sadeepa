@@ -192,7 +192,7 @@ export default function Projects({ projects = fallbackProjects }: ProjectsProps)
     const [popupVisible, setPopupVisible] = useState(false);
     const [mousePos, setMousePos] = useState({ x: -9999, y: -9999 });
     const [direction, setDirection] = useState<'up' | 'down'>('down');
-    const [activeProject, setActiveProject] = useState<Project | null>(null);
+    const [activeProject] = useState<Project | null>(null);
     const projectIndexRef = useRef<number>(-1);
 
     useEffect(() => {
@@ -303,6 +303,32 @@ export default function Projects({ projects = fallbackProjects }: ProjectsProps)
                             </span>
                         </Link>
                     ))}
+                </div>
+
+                {/* Explore all projects button */}
+                <div className="fu mt-10 md:mt-14 flex justify-center">
+                    <Link
+                        href="/projects"
+                        className="group inline-flex items-center gap-3 font-syne font-bold text-[11px] tracking-[0.22em] uppercase px-8 py-4 border transition-colors duration-300 no-underline"
+                        style={{
+                            borderColor: 'rgba(235,89,57,0.3)',
+                            color: 'var(--fg)',
+                            background: 'transparent',
+                        }}
+                        onMouseEnter={e => {
+                            (e.currentTarget as HTMLElement).style.background = 'var(--or)';
+                            (e.currentTarget as HTMLElement).style.borderColor = 'var(--or)';
+                            (e.currentTarget as HTMLElement).style.color = '#0d0d0d';
+                        }}
+                        onMouseLeave={e => {
+                            (e.currentTarget as HTMLElement).style.background = 'transparent';
+                            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(235,89,57,0.3)';
+                            (e.currentTarget as HTMLElement).style.color = 'var(--fg)';
+                        }}
+                    >
+                        Explore all projects
+                        <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </Link>
                 </div>
             </section>
         </>
