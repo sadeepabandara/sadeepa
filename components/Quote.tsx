@@ -120,7 +120,7 @@ export default function Quote({ data, onCursorVisibilityChange }: QuoteProps) {
 
     const words = d.text.split(' ');
     // Different quote shown inside the mask reveal
-    const innerQuote = 'The investor of today does not profit from yesterday’s growth.';
+    const innerQuote = 'Be Fearful When Others Are Greedy and Greedy When Others Are Fearful.';
 
     // Shared typography styles — must be identical on both layers
     const textStyle: React.CSSProperties = {
