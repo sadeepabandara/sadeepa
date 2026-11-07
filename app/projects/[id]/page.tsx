@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import ProjectDetailPage from './ProjectDetailPage';
+import { fallbackProjects, withProjectDefaults } from '@/lib/projectContent';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,10 +17,10 @@ async function getProject(id: string) {
             .select('*')
             .eq('id', id)
             .single();
-        if (error || !data) return null;
-        return data;
+        if (error || !data) return fallbackProjects.find((p) => p.id === id) ?? null;
+        return withProjectDefaults(data);
     } catch {
-        return null;
+        return fallbackProjects.find((p) => p.id === id) ?? null;
     }
 }
 

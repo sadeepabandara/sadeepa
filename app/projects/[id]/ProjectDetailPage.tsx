@@ -15,6 +15,8 @@ interface Project {
     category?: string | null;
     overview?: string | null;
     challenge?: string | null;
+    solution?: string | null;
+    github_url?: string | null;
     role?: string | null;
     client?: string | null;
 }
@@ -141,6 +143,18 @@ export default function ProjectDetailPage({ project }: { project: Project }) {
                                 </p>
                             </div>
                         )}
+                        {project.solution && (
+                            <div>
+                                <h2 className="flex items-center gap-3 font-syne font-bold text-[11px] tracking-[0.28em] uppercase mb-5"
+                                    style={{ color: 'var(--or)' }}>
+                                    <span className="w-6 h-px inline-block" style={{ background: 'var(--or)' }} />
+                                    The Solution
+                                </h2>
+                                <p className="text-[14px] md:text-[15.5px] leading-[1.9]" style={{ color: 'var(--fg2)' }}>
+                                    {project.solution}
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right — project info sidebar */}
@@ -171,8 +185,8 @@ export default function ProjectDetailPage({ project }: { project: Project }) {
                                     EXPLORE MORE
                                 </a>
                             )}
-                            {project.url && (
-                                <a href={project.url} target="_blank" rel="noopener noreferrer"
+                            {project.github_url && (
+                                <a href={project.github_url} target="_blank" rel="noopener noreferrer"
                                     className="flex items-center justify-center gap-2 py-4 font-syne font-bold text-[11px] tracking-[0.2em] uppercase transition-colors duration-200 hover:border-or"
                                     style={{ background: 'var(--bg3)', color: 'var(--fg)', border: '1px solid rgba(235,89,57,0.15)' }}>
                                     VIEW CODE

@@ -257,17 +257,18 @@ function Modal({
 }
 
 // ── PROJECTS TAB ───────────────────────────────────────────
+const EMPTY_PROJECT_FORM = {
+    number: '', title: '', tags: '', year: '', url: '', image: '',
+    category: '', overview: '', challenge: '', solution: '',
+    role: '', client: '', github_url: '',
+};
+
 function ProjectsTab() {
     const [rows, setRows] = useState<any[]>([]);
     const [modal, setModal] = useState(false);
     const [editing, setEditing] = useState<any>(null);
     const [form, setForm] = useState({
-        number: '',
-        title: '',
-        tags: '',
-        year: '',
-        url: '',
-        image: '',
+        ...EMPTY_PROJECT_FORM,
     });
     const [saving, setSaving] = useState(false);
 
@@ -284,14 +285,7 @@ function ProjectsTab() {
 
     const openNew = () => {
         setEditing(null);
-        setForm({
-            number: '',
-            title: '',
-            tags: '',
-            year: '',
-            url: '',
-            image: '',
-        });
+        setForm({ ...EMPTY_PROJECT_FORM });
         setModal(true);
     };
     const openEdit = (r: any) => {
@@ -303,6 +297,13 @@ function ProjectsTab() {
             year: r.year,
             url: r.url ?? '',
             image: r.image ?? '',
+            category: r.category ?? '',
+            overview: r.overview ?? '',
+            challenge: r.challenge ?? '',
+            solution: r.solution ?? '',
+            role: r.role ?? '',
+            client: r.client ?? '',
+            github_url: r.github_url ?? '',
         });
         setModal(true);
     };
@@ -317,9 +318,16 @@ function ProjectsTab() {
                 .map((t) => t.trim())
                 .filter(Boolean),
             year: form.year,
+            url: form.url || null,
+            image: form.image || null,
+            category: form.category || null,
+            overview: form.overview || null,
+            challenge: form.challenge || null,
+            solution: form.solution || null,
+            role: form.role || null,
+            client: form.client || null,
+            github_url: form.github_url || null,
         };
-        if (form.url) payload.url = form.url;
-        if (form.image) payload.image = form.image;
         if (editing)
             await supabase
                 .from('projects')
@@ -497,6 +505,29 @@ function ProjectsTab() {
                             }
                             placeholder="https://... (thumbnail)"
                         />
+                        <Input label="Category" value={form.category}
+                            onChange={(v) => setForm((f) => ({ ...f, category: v }))}
+                            placeholder="AI / Computer Vision" />
+                        <Input label="Overview" rows={5} value={form.overview}
+                            onChange={(v) => setForm((f) => ({ ...f, overview: v }))}
+                            placeholder="What the project is and what it does" />
+                        <Input label="The Challenge" rows={3} value={form.challenge}
+                            onChange={(v) => setForm((f) => ({ ...f, challenge: v }))}
+                            placeholder="The problem you had to solve" />
+                        <Input label="The Solution" rows={4} value={form.solution}
+                            onChange={(v) => setForm((f) => ({ ...f, solution: v }))}
+                            placeholder="How you solved it (stack + approach)" />
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                            <Input label="Role" value={form.role}
+                                onChange={(v) => setForm((f) => ({ ...f, role: v }))}
+                                placeholder="Full-Stack Developer" />
+                            <Input label="Client" value={form.client}
+                                onChange={(v) => setForm((f) => ({ ...f, client: v }))}
+                                placeholder="Personal / Open Source" />
+                        </div>
+                        <Input label="GitHub URL (View Code button)" value={form.github_url}
+                            onChange={(v) => setForm((f) => ({ ...f, github_url: v }))}
+                            placeholder="https://github.com/..." />
                         <div
                             style={{
                                 display: 'flex',

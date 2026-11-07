@@ -3,98 +3,12 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { fallbackProjects, withProjectDefaults } from '@/lib/projectContent';
+import type { Project } from '@/lib/projectContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export interface Project {
-    id: string;
-    number: string;
-    title: string;
-    tags: string[];
-    year: string;
-    url: string | null;
-    image?: string | null;
-    // Detail page fields (optional — show what's available)
-    category?: string;
-    overview?: string;
-    challenge?: string;
-    role?: string;
-    client?: string;
-    images?: string[];
-}
-
-const fallbackProjects: Project[] = [
-    {
-        id: '1',
-        number: '001',
-        title: 'Sadeepa Portfolio',
-        tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'GSAP', 'Supabase'],
-        year: '2026',
-        url: 'https://sadeepa.me',
-        image: null,
-        category: 'Brand Identity / Web Development',
-        overview: 'A fully custom personal portfolio built from the ground up to reflect my approach to development — obsessive attention to detail, clean architecture, and experiences that feel alive. Features scroll-driven animations, a custom mask cursor effect, Three.js particle hero, interactive terminal, and a Supabase-powered CMS.',
-        challenge: 'Balancing visual richness with performance. Every animation needed to feel premium without sacrificing load time or accessibility.',
-        role: 'Designer & Developer',
-        client: 'Personal',
-    },
-    {
-        id: '2',
-        number: '002',
-        title: 'SpendWix Budget Tracker',
-        tags: ['Next.js', 'TypeScript', 'Supabase', 'Stripe', 'Framer Motion', 'Recharts'],
-        year: '2025',
-        url: null,
-        image: null,
-        category: 'FinTech / SaaS',
-        overview: 'A personal finance dashboard that lets users track spending, set budgets, and visualise their money habits over time. Includes Stripe-powered subscriptions for a Pro tier with advanced reporting and CSV exports.',
-        challenge: 'Designing a financial product that felt approachable rather than intimidating — turning raw numbers into clear visual stories.',
-        role: 'Full-Stack Developer',
-        client: 'Open Source',
-    },
-    {
-        id: '3',
-        number: '003',
-        title: 'Frames Streaming Platform',
-        tags: ['Next.js', 'TypeScript', 'MongoDB', 'Clerk', 'Zustand', 'TMDB API'],
-        year: '2026',
-        url: 'https://watchframes.vercel.app',
-        image: null,
-        category: 'Entertainment / Streaming',
-        overview: 'A Netflix-inspired streaming discovery platform powered by the TMDB API. Features real-time search, personalised watchlists, and a clean cinema-dark UI. Auth is handled by Clerk and state by Zustand.',
-        challenge: 'Building a fast, fluid browsing experience across thousands of titles without sacrificing perceived performance.',
-        role: 'Full-Stack Developer',
-        client: 'Personal',
-    },
-    {
-        id: '4',
-        number: '004',
-        title: 'Melbourne Open Playground',
-        tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'JWT', 'Bcrypt'],
-        year: '2026',
-        url: null,
-        image: null,
-        category: 'Community / Social',
-        overview: 'A platform for Melbourne locals to discover and share open playgrounds, parks, and recreational spaces. Features user-generated listings, reviews, and map integration.',
-        challenge: 'Handling geospatial data efficiently and building a trustworthy moderation system for community-submitted content.',
-        role: 'Full-Stack Developer',
-        client: 'Open Source',
-    },
-    {
-        id: '5',
-        number: '005',
-        title: 'Zippy Delivery Service',
-        tags: ['React', 'Node.js', 'Tailwind CSS', 'Jira', 'Git'],
-        year: '2023',
-        url: null,
-        image: null,
-        category: 'Logistics / E-Commerce',
-        overview: 'A delivery management platform built as a university team project. Includes driver dispatch, real-time order tracking, and a customer-facing storefront. Managed delivery through Agile sprints using Jira.',
-        challenge: 'Coordinating a multi-person team on a tight deadline while maintaining code quality and consistent design across the product.',
-        role: 'Lead Developer',
-        client: 'University Project',
-    },
-];
+export type { Project };
 
 interface ProjectsProps {
     projects?: Project[];
@@ -186,6 +100,7 @@ function ProjectPopup({
 
 // ── Main Component ─────────────────────────────────────────────────────────
 export default function Projects({ projects = fallbackProjects }: ProjectsProps) {
+    const list = projects.map(withProjectDefaults);
     const sectionRef = useRef<HTMLElement>(null);
     const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
     const [prevProject, setPrevProject] = useState<Project | null>(null);
@@ -266,7 +181,7 @@ export default function Projects({ projects = fallbackProjects }: ProjectsProps)
                     <em className="not-italic font-normal text-fg/50">shipped.</em>
                 </h2>
                 <div>
-                    {projects.map((p, i) => (
+                    {list.map((p, i) => (
                         <Link
                             key={p.id}
                             href={`/projects/${p.id}`}

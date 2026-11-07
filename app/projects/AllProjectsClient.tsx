@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { withProjectDefaults } from '@/lib/projectContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -148,7 +149,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
 export default function AllProjectsClient({ projects }: { projects: Project[] }) {
     const headerRef = useRef<HTMLDivElement>(null);
-    const list = projects.length > 0 ? projects : fallback;
+    const list = (projects.length > 0 ? projects : fallback).map(withProjectDefaults);
 
     useEffect(() => {
         const els = headerRef.current?.querySelectorAll('.h-anim');
