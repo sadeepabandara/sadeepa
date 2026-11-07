@@ -125,3 +125,18 @@ export const fallbackProjects: Project[] = [
     { id: '4', number: '004', title: 'Melbourne Open Playground', tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'JWT', 'Bcrypt'], year: '2026', url: null },
     { id: '5', number: '005', title: 'Zippy Delivery Service', tags: ['React', 'Node.js', 'Tailwind CSS', 'Jira', 'Git'], year: '2023', url: null },
 ].map(withProjectDefaults);
+
+export function slugify(text: string): string {
+    return text
+        .toLowerCase()
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/&/g, ' and ')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+/** URL slug for a project, e.g. "Melbourne Open Playground" -> "melbourne-open-playground" */
+export function projectSlug(p: { title: string }): string {
+    return slugify(p.title);
+}

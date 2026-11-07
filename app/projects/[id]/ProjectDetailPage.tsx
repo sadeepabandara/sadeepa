@@ -52,7 +52,7 @@ export default function ProjectDetailPage({ project }: { project: Project }) {
             {/* ── Nav bar ── */}
             <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-14 py-5"
                 style={{ background: 'rgba(13,13,13,0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(235,89,57,0.08)' }}>
-                <Link href="/"
+                <Link href="/projects"
                     className="font-syne text-[10px] tracking-[0.28em] uppercase flex items-center gap-2 transition-colors duration-200"
                     style={{ color: 'var(--fg2)' }}
                     onMouseEnter={e => (e.currentTarget.style.color = 'var(--or)')}
@@ -211,7 +211,7 @@ export default function ProjectDetailPage({ project }: { project: Project }) {
 
                 {/* Back link */}
                 <div className="mt-20 pt-10" style={{ borderTop: '1px solid rgba(235,89,57,0.1)' }}>
-                    <Link href="/#projects"
+                    <Link href="/projects"
                         className="font-syne text-[11px] tracking-[0.24em] uppercase flex items-center gap-3 transition-colors duration-200 w-fit"
                         style={{ color: 'var(--fg3)' }}
                         onMouseEnter={e => (e.currentTarget.style.color = 'var(--or)')}

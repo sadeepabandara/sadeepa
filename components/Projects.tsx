@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { fallbackProjects, withProjectDefaults } from '@/lib/projectContent';
+import { fallbackProjects, withProjectDefaults, projectSlug } from '@/lib/projectContent';
 import type { Project } from '@/lib/projectContent';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -184,7 +184,7 @@ export default function Projects({ projects = fallbackProjects }: ProjectsProps)
                     {list.map((p, i) => (
                         <Link
                             key={p.id}
-                            href={`/projects/${p.id}`}
+                            href={`/projects/${projectSlug(p)}`}
                             className="proj-item fu grid items-center gap-4 md:gap-10 py-5 md:py-7 border-b no-underline transition-[padding,background] duration-[400ms] ease-[cubic-bezier(.23,1,.32,1)] hover:md:pl-[18px] hover:bg-or/[0.02] group cursor-none"
                             style={{ gridTemplateColumns: '40px 1fr auto', borderColor: 'var(--line)' }}
                             onMouseEnter={() => handleMouseEnter(p, i)}

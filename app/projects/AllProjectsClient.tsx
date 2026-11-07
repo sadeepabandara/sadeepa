@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { withProjectDefaults } from '@/lib/projectContent';
+import { withProjectDefaults, projectSlug } from '@/lib/projectContent';
 import Cursor from '@/components/Cursor';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -52,7 +52,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
     return (
         <div ref={cardRef} style={{ opacity: 0 }}>
-            <Link href={`/projects/${project.id}`} className="group block no-underline">
+            <Link href={`/projects/${projectSlug(project)}`} className="group block no-underline">
                 {/* Image card */}
                 <div
                     className="relative overflow-hidden mb-4"
