@@ -40,7 +40,7 @@ function ProjectPopup({
 
     useEffect(() => {
         if (quickX.current) quickX.current(mouseX + 28);
-        if (quickY.current) quickY.current(mouseY - 140);
+        if (quickY.current) quickY.current(mouseY - 135);
     }, [mouseX, mouseY]);
 
     useEffect(() => {
@@ -74,7 +74,7 @@ function ProjectPopup({
         <div ref={popupRef} className="fixed top-0 left-0 pointer-events-none z-[8000]"
             style={{ opacity: 0, transform: 'scale(0.94)', transformOrigin: 'top left', willChange: 'transform, opacity' }}>
             <div className="relative overflow-hidden"
-                style={{ width: 420, height: 280, background: 'var(--bg3)', border: '1px solid rgba(255,94,26,0.18)', boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,94,26,0.06)' }}>
+                style={{ width: 480, height: 270, background: 'var(--bg3)', border: '1px solid rgba(255,94,26,0.18)', boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,94,26,0.06)' }}>
                 {prevProject && (
                     <div ref={prevRef} className="absolute inset-0">
                         {prevProject.image ? <img src={prevProject.image} alt={prevProject.title} className="w-full h-full object-cover" /> : imgPlaceholder(prevProject.title)}
