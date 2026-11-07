@@ -11,6 +11,7 @@ import About from '@/components/About';
 import Services from '@/components/Services';
 import Projects from '@/components/Projects';
 import TechStack from '@/components/TechStack';
+import Markets from '@/components/Markets';
 import Terminal from '@/components/Terminal';
 import Education from '@/components/Education';
 import FlappyGame from '@/components/FlappyGame';
@@ -99,6 +100,7 @@ export default function PageClient({
             <Services data={services.length ? services : undefined} />
             <Projects projects={projects.length ? projects : undefined} />
             <TechStack data={techStack.length ? techStack : undefined} />
+            <Markets />
             <Terminal />
             <Education data={education.length ? education : undefined} />
             <FlappyGame />
