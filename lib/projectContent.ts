@@ -20,7 +20,7 @@ export interface Project {
     images?: string[] | null;
 }
 
-type Content = Omit<Project, 'id' | 'number' | 'title' | 'tags' | 'year'> & {
+type Content = Partial<Omit<Project, 'id' | 'number' | 'title' | 'tags' | 'year'>> & {
     match: string[]; // lowercase fragments matched against the project title
 };
 
