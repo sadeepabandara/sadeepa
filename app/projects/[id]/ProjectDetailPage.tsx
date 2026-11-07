@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
+import Cursor from '@/components/Cursor';
 
 interface Project {
     id: string;
@@ -46,6 +47,7 @@ export default function ProjectDetailPage({ project }: { project: Project }) {
 
     return (
         <main className="min-h-screen" style={{ background: 'var(--bg)', color: 'var(--fg)' }}>
+            <Cursor />
 
             {/* ── Nav bar ── */}
             <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-14 py-5"

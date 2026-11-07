@@ -4,6 +4,7 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { withProjectDefaults } from '@/lib/projectContent';
+import Cursor from '@/components/Cursor';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -162,6 +163,7 @@ export default function AllProjectsClient({ projects }: { projects: Project[] })
 
     return (
         <main style={{ background: 'var(--bg)', color: 'var(--fg)', minHeight: '100vh' }}>
+            <Cursor />
 
             {/* Nav */}
             <nav
