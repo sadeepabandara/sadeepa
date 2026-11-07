@@ -52,7 +52,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
     return (
         <div ref={cardRef} style={{ opacity: 0 }}>
-            <Link href={`/projects/${projectSlug(project)}`} className="group block no-underline">
+            <Link
+                href={`/projects/${projectSlug(project)}`}
+                className="group block no-underline"
+                onClick={() => { try { sessionStorage.setItem('fromProjectsList', '1'); } catch {} }}
+            >
                 {/* Image card */}
                 <div
                     className="relative overflow-hidden mb-4"

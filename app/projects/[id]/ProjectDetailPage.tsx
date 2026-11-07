@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 import Cursor from '@/components/Cursor';
 
@@ -25,6 +26,24 @@ interface Project {
 export default function ProjectDetailPage({ project }: { project: Project }) {
     const heroRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+
+    // Browser Back should land on /projects. When the visitor arrived from the
+    // projects list the browser already does that; otherwise (home page, direct
+    // link) we catch Back and send them to /projects.
+    useEffect(() => {
+        let fromList = false;
+        try {
+            fromList = sessionStorage.getItem('fromProjectsList') === '1';
+            sessionStorage.removeItem('fromProjectsList');
+        } catch {}
+        if (fromList) return;
+
+        window.history.pushState(window.history.state, '', window.location.href);
+        const onPop = () => router.replace('/projects');
+        window.addEventListener('popstate', onPop);
+        return () => window.removeEventListener('popstate', onPop);
+    }, [router]);
 
     useEffect(() => {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });

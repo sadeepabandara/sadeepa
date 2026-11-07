@@ -87,6 +87,21 @@ export default function Hero({ animate }: HeroProps) {
         }
     };
 
+    // Browsers block sound until the visitor interacts. The first click anywhere
+    // on the page turns the music on; after that the sound button mutes/unmutes.
+    useEffect(() => {
+        const onFirstClick = (e: Event) => {
+            window.removeEventListener('click', onFirstClick, true);
+            // If the first click is on the sound button, its own handler deals with it.
+            if ((e.target as HTMLElement | null)?.closest?.('[data-sound-toggle]')) return;
+            setSoundEnabled(true);
+            void tryStartAudio();
+        };
+        window.addEventListener('click', onFirstClick, true);
+        return () => window.removeEventListener('click', onFirstClick, true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     // Start audio after loader; if blocked, show tap prompt.
     useEffect(() => {
         const audio = audioRef.current;
@@ -285,6 +300,7 @@ export default function Hero({ animate }: HeroProps) {
                 {/* Sound toggle */}
                 <div className="relative">
                     <button
+                        data-sound-toggle
                         onClick={() => {
                             void toggleSound();
                         }}
@@ -328,6 +344,7 @@ export default function Hero({ animate }: HeroProps) {
 
                     {animate && !soundEnabled && (
                         <button
+                            data-sound-toggle
                             onClick={() => {
                                 void toggleSound();
                             }}
