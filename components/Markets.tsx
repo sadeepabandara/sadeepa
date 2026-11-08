@@ -177,6 +177,7 @@ export default function Markets() {
     const [flash, setFlash] = useState<Record<string, 'up' | 'down'>>({});
     const liveRef = useRef<Record<string, number>>({});
     const userPicked = useRef(false);
+    const [cryptoView, setCryptoView] = useState<'line' | 'pie'>('line');
 
     // Near-real-time crypto prices: poll every 5s while the section is on screen.
     useEffect(() => {
@@ -283,6 +284,7 @@ export default function Markets() {
     const series = withLive(data?.assets.find((s: AssetSeries) => s.symbol === selected));
     const ok = !!series?.points && series.price !== undefined && series.base !== undefined;
     const unavailable = !ok && !loading;
+    const showPie = asset.group === 'Crypto' && cryptoView === 'pie' && !unavailable;
 
     const W = 1000,
         H = 340;
@@ -414,7 +416,63 @@ export default function Markets() {
                         )}
                     </div>
 
-                    {!unavailable && (
+                    {asset.group === 'Crypto' && !unavailable && (
+                        <div className="mt-6 flex justify-end">
+                            <div className="inline-flex border" role="group" aria-label="Chart type" style={{ borderColor: 'var(--line)' }}>
+                                {([
+                                    ['line', 'Line'],
+                                    ['pie', 'Pie'],
+                                ] as const).map(([k, label]) => (
+                                    <button
+                                        key={k}
+                                        onClick={() => {
+                                            setHover(null);
+                                            setCryptoView(k);
+                                        }}
+                                        aria-pressed={cryptoView === k}
+                                        className="flex items-center gap-2 px-4 py-2.5 font-syne text-[10px] tracking-[0.18em] uppercase transition-colors duration-200"
+                                        style={{
+                                            color: cryptoView === k ? 'var(--fg)' : 'var(--fg2)',
+                                            background: cryptoView === k ? 'rgba(255,255,255,0.08)' : 'transparent',
+                                        }}
+                                    >
+                                        {k === 'line' ? (
+                                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                                <path d="M1.5 12l4-5 3 3 6-7" />
+                                            </svg>
+                                        ) : (
+                                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden>
+                                                <path d="M8 1.5v6.5h6.5A6.5 6.5 0 1 1 8 1.5z" />
+                                                <path d="M10 1.9a6.5 6.5 0 0 1 4.1 4.1H10z" />
+                                            </svg>
+                                        )}
+                                        {label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {showPie && (
+                        <div className="mt-6 flex items-center md:min-h-[420px]">
+                            <div className="w-full">
+                                <div className="mb-6 font-syne text-[9px] tracking-[0.3em] uppercase" style={{ color: 'var(--fg2)' }}>
+                                    How I split my crypto
+                                </div>
+                                <AllocationPie
+                                    items={CRYPTO_ALLOCATION}
+                                    selected={selected}
+                                    onSelect={(sym) => {
+                                        userPicked.current = true;
+                                        setHover(null);
+                                        setSelected(sym);
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {!unavailable && !showPie && (
                         <>
                     {/* chart */}
                     <div
@@ -487,24 +545,6 @@ export default function Markets() {
                     </div>
 
                         </>
-                    )}
-
-                    {asset.group === 'Crypto' && (
-                        <div className="mt-8 pt-8 border-t" style={{ borderColor: 'var(--line)' }}>
-                            <div className="mb-6 font-syne text-[9px] tracking-[0.3em] uppercase" style={{ color: 'var(--fg2)' }}>
-                                How I split my crypto
-                            </div>
-                            <AllocationPie
-                                items={CRYPTO_ALLOCATION}
-                                size="md"
-                                selected={selected}
-                                onSelect={(sym) => {
-                                    userPicked.current = true;
-                                    setHover(null);
-                                    setSelected(sym);
-                                }}
-                            />
-                        </div>
                     )}
 
                     <p className="mt-5 text-[12px] leading-[1.7]" style={{ color: 'var(--fg2)' }}>
