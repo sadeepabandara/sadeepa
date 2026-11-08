@@ -184,6 +184,7 @@ export default function Markets() {
     const asset = ASSETS.find((a: MarketAsset) => a.symbol === selected)!;
     const series = withLive(data?.assets.find((s: AssetSeries) => s.symbol === selected));
     const ok = !!series?.points && series.price !== undefined && series.base !== undefined;
+    const unavailable = !ok && !loading;
 
     const W = 1000,
         H = 340;
@@ -284,11 +285,29 @@ export default function Markets() {
                             </>
                         ) : (
                             <div className="text-[13px]" style={{ color: 'var(--fg2)' }}>
-                                {loading ? 'Loading prices…' : 'Prices aren’t available right now. Please try again shortly.'}
+                                {loading ? (
+                                    'Loading prices…'
+                                ) : asset.group === 'ETF' ? (
+                                    <div className="space-y-5">
+                                        <p>A live chart isn’t available for this ETF right now.</p>
+                                        <a
+                                            href={`https://www.google.com/finance/quote/${asset.symbol}:ASX`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 font-syne text-[11px] tracking-[0.18em] uppercase px-4 py-3 border border-or/40 text-or hover:bg-or/10 transition-colors duration-200"
+                                        >
+                                            View {asset.symbol} on Google Finance ↗
+                                        </a>
+                                    </div>
+                                ) : (
+                                    'Prices aren’t available right now. Please try again shortly.'
+                                )}
                             </div>
                         )}
                     </div>
 
+                    {!unavailable && (
+                        <>
                     {/* chart */}
                     <div
                         ref={chartRef}
@@ -358,6 +377,9 @@ export default function Markets() {
                             ))}
                         </div>
                     </div>
+
+                        </>
+                    )}
 
                     <p className="mt-5 text-[12px] leading-[1.7]" style={{ color: 'var(--fg2)' }}>
                         {asset.blurb}

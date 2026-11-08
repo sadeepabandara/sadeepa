@@ -10,9 +10,9 @@ type Body = { updated: number; prices: Record<string, number>; error?: string };
 let memo: { at: number; body: Body } | null = null;
 
 export async function GET() {
-    if (memo && Date.now() - memo.at < 4000) {
+    if (memo && Date.now() - memo.at < 2000) {
         return NextResponse.json(memo.body, {
-            headers: { 'Cache-Control': 'public, s-maxage=5, stale-while-revalidate=10' },
+            headers: { 'Cache-Control': 'public, s-maxage=2, stale-while-revalidate=2' },
         });
     }
     try {
@@ -26,14 +26,20 @@ export async function GET() {
         const prices: Record<string, number> = {};
         for (const [pair, v] of Object.entries(json?.result ?? {})) {
             const sym = pair.includes('XBT') ? 'BTC' : pair.includes('ETH') ? 'ETH' : pair.includes('SOL') ? 'SOL' : null;
-            const last = Number((v as { c?: string[] }).c?.[0]);
-            if (sym && Number.isFinite(last)) prices[sym] = last;
+            // Last-trade price can sit still for minutes on thin AUD markets, so use the
+            // midpoint of the best bid/ask (updates whenever the order book moves).
+            const t = v as { a?: string[]; b?: string[]; c?: string[] };
+            const ask = Number(t.a?.[0]);
+            const bid = Number(t.b?.[0]);
+            const last = Number(t.c?.[0]);
+            const px = ask > 0 && bid > 0 ? (ask + bid) / 2 : last;
+            if (sym && Number.isFinite(px)) prices[sym] = Math.round(px * 100) / 100;
         }
         if (!Object.keys(prices).length) throw new Error('kraken: no prices');
         const body: Body = { updated: Date.now(), prices };
         memo = { at: Date.now(), body };
         return NextResponse.json(body, {
-            headers: { 'Cache-Control': 'public, s-maxage=5, stale-while-revalidate=10' },
+            headers: { 'Cache-Control': 'public, s-maxage=2, stale-while-revalidate=2' },
         });
     } catch (e) {
         return NextResponse.json(

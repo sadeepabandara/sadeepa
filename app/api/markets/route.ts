@@ -209,7 +209,7 @@ export async function GET(req: Request) {
     const ttl = okCount === assets.length ? 300_000 : okCount > 0 ? 60_000 : 0;
     if (ttl) memo.set(key, { at: Date.now(), ttl, body });
 
-    return NextResponse.json(body, {
+    return NextResponse.json({ ...body, region: process.env.VERCEL_REGION ?? null }, {
         headers: {
             'Cache-Control': ttl
                 ? `public, s-maxage=${ttl / 1000}, stale-while-revalidate=300`
