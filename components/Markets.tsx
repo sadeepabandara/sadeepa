@@ -66,30 +66,48 @@ function Spark({ series, color }: { series: AssetSeries; color: string }) {
     );
 }
 
-// How I split my ETF investing (percentages only, edit freely; should add up to 100).
-const ALLOCATION = [
+// How I split my investing (percentages only; each list should add up to 100).
+type Slice = { symbol: string; pct: number; color: string };
+
+const ETF_ALLOCATION: Slice[] = [
     { symbol: 'IVV', pct: 50, color: '#eb5939' },
     { symbol: 'NDQ', pct: 20, color: '#6c8cff' },
     { symbol: 'VEU', pct: 20, color: '#b07cff' },
     { symbol: 'A200', pct: 10, color: '#e8b04a' },
 ];
 
-function AllocationPie({ selected, onSelect }: { selected: string; onSelect: (symbol: string) => void }) {
-    const R = 70;
+const CRYPTO_ALLOCATION: Slice[] = [
+    { symbol: 'BTC', pct: 60, color: '#f7931a' },
+    { symbol: 'ETH', pct: 30, color: '#5aa0ff' },
+    { symbol: 'SOL', pct: 10, color: '#c26bff' },
+];
+
+function AllocationPie({
+    items,
+    selected,
+    onSelect,
+    size = 'lg',
+}: {
+    items: Slice[];
+    selected: string;
+    onSelect: (symbol: string) => void;
+    size?: 'md' | 'lg';
+}) {
+    const R = 76;
     const C = 2 * Math.PI * R;
     const GAP = 3;
-    const active = ALLOCATION.find((a) => a.symbol === selected);
+    const active = items.find((a) => a.symbol === selected);
     let acc = 0;
     return (
-        <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-10">
-            <div className="relative w-[190px] h-[190px] shrink-0">
+        <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-12">
+            <div className={`relative shrink-0 ${size === 'lg' ? 'w-[250px] h-[250px] sm:w-[280px] sm:h-[280px]' : 'w-[220px] h-[220px] sm:w-[240px] sm:h-[240px]'}`}>
                 <svg
                     viewBox="0 0 200 200"
                     className="w-full h-full -rotate-90"
                     role="img"
-                    aria-label={`ETF split: ${ALLOCATION.map((a) => `${a.symbol} ${a.pct}%`).join(', ')}`}
+                    aria-label={`Split: ${items.map((a) => `${a.symbol} ${a.pct}%`).join(', ')}`}
                 >
-                    {ALLOCATION.map((a) => {
+                    {items.map((a) => {
                         const len = (a.pct / 100) * C;
                         const start = acc;
                         acc += len;
@@ -103,7 +121,7 @@ function AllocationPie({ selected, onSelect }: { selected: string; onSelect: (sy
                                 r={R}
                                 fill="none"
                                 stroke={a.color}
-                                strokeWidth={on ? 28 : 20}
+                                strokeWidth={on ? 26 : 18}
                                 strokeDasharray={`${dash} ${C - dash}`}
                                 strokeDashoffset={-start}
                                 style={{ opacity: on ? 1 : 0.25, transition: 'opacity .35s ease, stroke-width .35s ease', cursor: 'pointer' }}
@@ -113,7 +131,7 @@ function AllocationPie({ selected, onSelect }: { selected: string; onSelect: (sy
                     })}
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <div className="text-[38px] font-extrabold leading-none tracking-[-0.03em] text-fg">{active ? `${active.pct}%` : ''}</div>
+                    <div className={`font-extrabold leading-none tracking-[-0.03em] text-fg ${size === 'lg' ? 'text-[30px] sm:text-[34px]' : 'text-[26px] sm:text-[30px]'}`}>{active ? `${active.pct}%` : ''}</div>
                     <div className="mt-2 font-syne text-[10px] tracking-[0.24em]" style={{ color: active?.color }}>
                         {active?.symbol}
                     </div>
@@ -121,7 +139,7 @@ function AllocationPie({ selected, onSelect }: { selected: string; onSelect: (sy
             </div>
 
             <div className="w-full sm:flex-1 min-w-0">
-                {ALLOCATION.map((a) => {
+                {items.map((a) => {
                     const on = a.symbol === selected;
                     const name = ASSETS.find((x) => x.symbol === a.symbol)?.name ?? a.symbol;
                     return (
@@ -371,6 +389,7 @@ export default function Markets() {
                                     <div className="space-y-6">
                                         <div className="font-syne text-[9px] tracking-[0.3em] uppercase">How I split my ETFs</div>
                                         <AllocationPie
+                                            items={ETF_ALLOCATION}
                                             selected={selected}
                                             onSelect={(sym) => {
                                                 userPicked.current = true;
@@ -470,6 +489,24 @@ export default function Markets() {
                         </>
                     )}
 
+                    {asset.group === 'Crypto' && (
+                        <div className="mt-8 pt-8 border-t" style={{ borderColor: 'var(--line)' }}>
+                            <div className="mb-6 font-syne text-[9px] tracking-[0.3em] uppercase" style={{ color: 'var(--fg2)' }}>
+                                How I split my crypto
+                            </div>
+                            <AllocationPie
+                                items={CRYPTO_ALLOCATION}
+                                size="md"
+                                selected={selected}
+                                onSelect={(sym) => {
+                                    userPicked.current = true;
+                                    setHover(null);
+                                    setSelected(sym);
+                                }}
+                            />
+                        </div>
+                    )}
+
                     <p className="mt-5 text-[12px] leading-[1.7]" style={{ color: 'var(--fg2)' }}>
                         {asset.blurb}
                     </p>
@@ -531,7 +568,7 @@ export default function Markets() {
             </div>
 
             <p className="mk-fu mt-8 max-w-[760px] text-[11px] leading-[1.8]" style={{ color: 'var(--fg2)' }}>
-                For information only, not financial advice. These are assets I invest in. The ETF split shows how I divide my investing, not amounts or returns.
+                For information only, not financial advice. These are assets I invest in. The splits show how I divide my investing, not amounts or returns.
                 Prices are in AUD: crypto from Kraken (live), ETFs from Yahoo Finance (delayed).
             </p>
         </section>
