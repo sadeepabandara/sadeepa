@@ -75,6 +75,60 @@ export default function Markets() {
     const [loading, setLoading] = useState(true);
     const [failed, setFailed] = useState(false);
     const [hover, setHover] = useState<number | null>(null);
+    const [live, setLive] = useState<Record<string, number>>({});
+    const [flash, setFlash] = useState<Record<string, 'up' | 'down'>>({});
+    const liveRef = useRef<Record<string, number>>({});
+
+    // Near-real-time crypto prices: poll every 5s while the section is on screen.
+    useEffect(() => {
+        let stop = false;
+        let inView = true;
+        const el = sectionRef.current;
+        const io = el
+            ? new IntersectionObserver(([e]) => { inView = e.isIntersecting; }, { rootMargin: '300px' })
+            : null;
+        if (el && io) io.observe(el);
+
+        const tick = async () => {
+            if (stop || document.hidden || !inView) return;
+            try {
+                const res = await fetch('/api/markets/live');
+                if (!res.ok) return;
+                const json = await res.json();
+                const prices: Record<string, number> = json?.prices ?? {};
+                const prev = liveRef.current;
+                const fl: Record<string, 'up' | 'down'> = {};
+                for (const [sym, p] of Object.entries(prices)) {
+                    if (prev[sym] !== undefined && p !== prev[sym]) fl[sym] = p > prev[sym] ? 'up' : 'down';
+                }
+                liveRef.current = { ...prev, ...prices };
+                setLive(liveRef.current);
+                if (Object.keys(fl).length) {
+                    setFlash(fl);
+                    setTimeout(() => setFlash({}), 700);
+                }
+            } catch {
+                /* keep showing the last price */
+            }
+        };
+        void tick();
+        const id = setInterval(tick, 5000);
+        return () => {
+            stop = true;
+            clearInterval(id);
+            io?.disconnect();
+        };
+    }, []);
+
+    // Apply the latest live price to a series (moves the end of the line too).
+    const withLive = (s?: AssetSeries): AssetSeries | undefined => {
+        if (!s?.points) return s;
+        const p = live[s.symbol];
+        if (p === undefined) return s;
+        const pts = s.points.slice();
+        pts[pts.length - 1] = [pts[pts.length - 1][0], p];
+        return { ...s, price: p, points: pts };
+    };
 
     const load = useCallback(async (r: RangeKey, silent = false) => {
         if (!silent) setLoading(true);
@@ -118,7 +172,7 @@ export default function Markets() {
     }, []);
 
     const asset = ASSETS.find((a: MarketAsset) => a.symbol === selected)!;
-    const series = data?.assets.find((s: AssetSeries) => s.symbol === selected);
+    const series = withLive(data?.assets.find((s: AssetSeries) => s.symbol === selected));
     const ok = !!series?.points && series.price !== undefined && series.base !== undefined;
 
     const W = 1000,
@@ -185,12 +239,28 @@ export default function Markets() {
                         <span className="text-[12px] tracking-[0.04em]" style={{ color: 'var(--fg2)' }}>
                             {asset.name}
                         </span>
+                        <span className="ml-auto flex items-center gap-2 font-syne text-[9px] tracking-[0.22em] uppercase" style={{ color: 'var(--fg2)' }}>
+                            {asset.group === 'Crypto' && live[asset.symbol] !== undefined ? (
+                                <>
+                                    <span className="relative flex w-2 h-2">
+                                        <span className="absolute inline-flex w-full h-full rounded-full animate-ping opacity-60" style={{ background: UP }} />
+                                        <span className="relative inline-flex w-2 h-2 rounded-full" style={{ background: UP }} />
+                                    </span>
+                                    Live
+                                </>
+                            ) : (
+                                asset.group === 'ETF' ? 'Delayed' : ''
+                            )}
+                        </span>
                     </div>
 
                     <div className="min-h-[88px]">
                         {ok ? (
                             <>
-                                <div className="text-[clamp(34px,5vw,56px)] font-extrabold leading-none tracking-[-0.03em] text-fg">
+                                <div
+                                    className="text-[clamp(34px,5vw,56px)] font-extrabold leading-none tracking-[-0.03em] text-fg transition-colors duration-500"
+                                    style={flash[selected] && hover === null ? { color: flash[selected] === 'up' ? UP : DOWN } : undefined}
+                                >
                                     {money(cur)}
                                 </div>
                                 <div className="mt-3 flex flex-wrap items-center gap-x-3 text-[13px]" style={{ color }}>
@@ -292,7 +362,7 @@ export default function Markets() {
                                 {g.title}
                             </div>
                             {g.items.map((a: MarketAsset) => {
-                                const s = data?.assets.find((x: AssetSeries) => x.symbol === a.symbol);
+                                const s = withLive(data?.assets.find((x: AssetSeries) => x.symbol === a.symbol));
                                 const good = !!s?.points && s.price !== undefined && s.base !== undefined;
                                 const d = good ? ((s!.price! - s!.base!) / s!.base!) * 100 : 0;
                                 const c = d >= 0 ? UP : DOWN;
@@ -319,7 +389,12 @@ export default function Markets() {
                                         </div>
                                         {good && <Spark series={s!} color={c} />}
                                         <div className="text-right shrink-0 min-w-[88px]">
-                                            <div className="text-[13px] text-fg">{good ? money(s!.price!) : '—'}</div>
+                                            <div
+                                                className="text-[13px] text-fg transition-colors duration-500"
+                                                style={flash[a.symbol] ? { color: flash[a.symbol] === 'up' ? UP : DOWN } : undefined}
+                                            >
+                                                {good ? money(s!.price!) : '—'}
+                                            </div>
                                             <div className="text-[11px]" style={{ color: good ? c : 'var(--fg2)' }}>
                                                 {good ? pct(d) : ''}
                                             </div>
@@ -335,7 +410,7 @@ export default function Markets() {
 
             <p className="mk-fu mt-8 max-w-[760px] text-[11px] leading-[1.8]" style={{ color: 'var(--fg2)' }}>
                 For information only, not financial advice. These are assets I invest in, not a record of my holdings, amounts or returns.
-                Prices are in AUD from Yahoo Finance and may be delayed.
+                Prices are in AUD: crypto from Kraken (live), ETFs from Yahoo Finance (delayed).
             </p>
         </section>
     );
