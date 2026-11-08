@@ -66,6 +66,86 @@ function Spark({ series, color }: { series: AssetSeries; color: string }) {
     );
 }
 
+// How I split my ETF investing (percentages only, edit freely; should add up to 100).
+const ALLOCATION = [
+    { symbol: 'IVV', pct: 50, color: '#eb5939' },
+    { symbol: 'NDQ', pct: 20, color: '#6c8cff' },
+    { symbol: 'VEU', pct: 20, color: '#b07cff' },
+    { symbol: 'A200', pct: 10, color: '#e8b04a' },
+];
+
+function AllocationPie({ selected, onSelect }: { selected: string; onSelect: (symbol: string) => void }) {
+    const R = 70;
+    const C = 2 * Math.PI * R;
+    const GAP = 3;
+    const active = ALLOCATION.find((a) => a.symbol === selected);
+    let acc = 0;
+    return (
+        <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-10">
+            <div className="relative w-[190px] h-[190px] shrink-0">
+                <svg
+                    viewBox="0 0 200 200"
+                    className="w-full h-full -rotate-90"
+                    role="img"
+                    aria-label={`ETF split: ${ALLOCATION.map((a) => `${a.symbol} ${a.pct}%`).join(', ')}`}
+                >
+                    {ALLOCATION.map((a) => {
+                        const len = (a.pct / 100) * C;
+                        const start = acc;
+                        acc += len;
+                        const on = a.symbol === selected;
+                        const dash = Math.max(len - GAP, 0);
+                        return (
+                            <circle
+                                key={a.symbol}
+                                cx={100}
+                                cy={100}
+                                r={R}
+                                fill="none"
+                                stroke={a.color}
+                                strokeWidth={on ? 28 : 20}
+                                strokeDasharray={`${dash} ${C - dash}`}
+                                strokeDashoffset={-start}
+                                style={{ opacity: on ? 1 : 0.25, transition: 'opacity .35s ease, stroke-width .35s ease', cursor: 'pointer' }}
+                                onClick={() => onSelect(a.symbol)}
+                            />
+                        );
+                    })}
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <div className="text-[38px] font-extrabold leading-none tracking-[-0.03em] text-fg">{active ? `${active.pct}%` : ''}</div>
+                    <div className="mt-2 font-syne text-[10px] tracking-[0.24em]" style={{ color: active?.color }}>
+                        {active?.symbol}
+                    </div>
+                </div>
+            </div>
+
+            <div className="w-full sm:flex-1 min-w-0">
+                {ALLOCATION.map((a) => {
+                    const on = a.symbol === selected;
+                    const name = ASSETS.find((x) => x.symbol === a.symbol)?.name ?? a.symbol;
+                    return (
+                        <button
+                            key={a.symbol}
+                            onClick={() => onSelect(a.symbol)}
+                            aria-pressed={on}
+                            className="w-full flex items-center gap-3 py-2.5 text-left transition-opacity duration-300"
+                            style={{ opacity: on ? 1 : 0.5 }}
+                        >
+                            <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: a.color }} />
+                            <span className="font-syne text-[12px] font-bold tracking-[0.06em] text-fg w-[44px]">{a.symbol}</span>
+                            <span className="text-[11px] truncate flex-1" style={{ color: 'var(--fg2)' }}>
+                                {name}
+                            </span>
+                            <span className="text-[13px] text-fg">{a.pct}%</span>
+                        </button>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
+
 export default function Markets() {
     const sectionRef = useRef<HTMLElement>(null);
     const chartRef = useRef<HTMLDivElement>(null);
@@ -288,8 +368,17 @@ export default function Markets() {
                                 {loading ? (
                                     'Loading prices…'
                                 ) : asset.group === 'ETF' ? (
-                                    <div className="space-y-5">
-                                        <p>A live chart isn’t available for this ETF right now.</p>
+                                    <div className="space-y-6">
+                                        <div className="font-syne text-[9px] tracking-[0.3em] uppercase">How I split my ETFs</div>
+                                        <AllocationPie
+                                            selected={selected}
+                                            onSelect={(sym) => {
+                                                userPicked.current = true;
+                                                setHover(null);
+                                                setSelected(sym);
+                                            }}
+                                        />
+                                        <p>A live price chart isn’t available for this ETF right now.</p>
                                         <a
                                             href={`https://www.google.com/finance/quote/${asset.symbol}:ASX`}
                                             target="_blank"
@@ -442,7 +531,7 @@ export default function Markets() {
             </div>
 
             <p className="mk-fu mt-8 max-w-[760px] text-[11px] leading-[1.8]" style={{ color: 'var(--fg2)' }}>
-                For information only, not financial advice. These are assets I invest in, not a record of my holdings, amounts or returns.
+                For information only, not financial advice. These are assets I invest in. The ETF split shows how I divide my investing, not amounts or returns.
                 Prices are in AUD: crypto from Kraken (live), ETFs from Yahoo Finance (delayed).
             </p>
         </section>
