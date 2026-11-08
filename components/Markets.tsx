@@ -78,6 +78,7 @@ export default function Markets() {
     const [live, setLive] = useState<Record<string, number>>({});
     const [flash, setFlash] = useState<Record<string, 'up' | 'down'>>({});
     const liveRef = useRef<Record<string, number>>({});
+    const userPicked = useRef(false);
 
     // Near-real-time crypto prices: poll every 5s while the section is on screen.
     useEffect(() => {
@@ -119,6 +120,15 @@ export default function Markets() {
             io?.disconnect();
         };
     }, []);
+
+    // If the default asset has no data, open on the first one that does.
+    useEffect(() => {
+        if (!data || userPicked.current) return;
+        const cur = data.assets.find((x) => x.symbol === selected);
+        if (cur && !cur.error) return;
+        const firstOk = data.assets.find((x) => !x.error);
+        if (firstOk) setSelected(firstOk.symbol);
+    }, [data, selected]);
 
     // Apply the latest live price to a series (moves the end of the line too).
     const withLive = (s?: AssetSeries): AssetSeries | undefined => {
@@ -371,6 +381,7 @@ export default function Markets() {
                                     <button
                                         key={a.symbol}
                                         onClick={() => {
+                                            userPicked.current = true;
                                             setHover(null);
                                             setSelected(a.symbol);
                                         }}

@@ -9,6 +9,10 @@ import {
 } from '@/lib/markets';
 
 export const dynamic = 'force-dynamic';
+// Yahoo rate-limits by IP and tends to block Vercel's default US region.
+// Running this function from Sydney uses a different address pool (and is
+// closer to ASX data). If Vercel ever rejects this region, delete the line.
+export const preferredRegion = 'syd1';
 
 const UA =
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
