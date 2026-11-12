@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { createPortal } from 'react-dom';
 
 interface Message {
     role: 'user' | 'assistant';
@@ -74,6 +75,23 @@ function TypingDots() {
     );
 }
 
+// On phones the chat is a bottom sheet rendered at the top level of the page, so it can
+// never be pushed off-screen by whatever it sits inside (like the centred mobile menu).
+function PanelWrap({ mobile, children }: { mobile: boolean; children: React.ReactNode }) {
+    if (!mobile) return <>{children}</>;
+    return createPortal(
+        <>
+            <div
+                className="fixed inset-0 z-[9400]"
+                style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(2px)' }}
+                aria-hidden
+            />
+            {children}
+        </>,
+        document.body,
+    );
+}
+
 export default function BlockMate() {
     const [open, setOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
@@ -90,6 +108,34 @@ export default function BlockMate() {
     const inputRef = useRef<HTMLInputElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const [vv, setVv] = useState<{ h: number; kb: number } | null>(null);
+
+    // phone layout below the same breakpoint the nav uses (md = 768px)
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 767px)');
+        const update = () => setIsMobile(mq.matches);
+        update();
+        mq.addEventListener('change', update);
+        return () => mq.removeEventListener('change', update);
+    }, []);
+
+    // keep the sheet above the on-screen keyboard
+    useEffect(() => {
+        if (!open || !isMobile) return;
+        const v = window.visualViewport;
+        const update = () => {
+            if (!v) return setVv(null);
+            setVv({ h: v.height, kb: Math.max(0, window.innerHeight - v.height - v.offsetTop) });
+        };
+        update();
+        v?.addEventListener('resize', update);
+        v?.addEventListener('scroll', update);
+        return () => {
+            v?.removeEventListener('resize', update);
+            v?.removeEventListener('scroll', update);
+        };
+    }, [open, isMobile]);
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -108,7 +154,8 @@ export default function BlockMate() {
             if (
                 target instanceof Node &&
                 wrapperRef.current &&
-                !wrapperRef.current.contains(target)
+                !wrapperRef.current.contains(target) &&
+                !panelRef.current?.contains(target)
             ) {
                 setOpen(false);
             }
@@ -185,7 +232,12 @@ export default function BlockMate() {
                     from { opacity: 0; transform: translateY(8px); }
                     to   { opacity: 1; transform: translateY(0); }
                 }
+                @keyframes bm-sheet {
+                    from { opacity: 0; transform: translateY(28px); }
+                    to   { opacity: 1; transform: translateY(0); }
+                }
                 .bm-panel { animation: bm-slidein 0.35s cubic-bezier(0.23,1,0.32,1) forwards; }
+                .bm-sheet { animation: bm-sheet 0.35s cubic-bezier(0.23,1,0.32,1) forwards; }
                 .bm-msg   { animation: bm-appear  0.28s ease-out forwards; }
                 .bm-trigger { transition: transform 0.3s cubic-bezier(0.23,1,0.32,1), box-shadow 0.3s ease; }
                 .bm-trigger:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,94,26,0.35); }
@@ -216,12 +268,25 @@ export default function BlockMate() {
 
                 {/* Chat panel */}
                 {open && (
+                    <PanelWrap mobile={isMobile}>
                     <div
                         ref={panelRef}
-                        className="bm-panel absolute top-12 right-0 z-[600] flex flex-col"
+                        className={
+                            isMobile
+                                ? 'bm-sheet fixed left-3 right-3 z-[9500] flex flex-col'
+                                : 'bm-panel absolute top-12 right-0 z-[600] flex flex-col'
+                        }
                         style={{
-                            width: 'min(380px, calc(100vw - 48px))',
-                            height: 480,
+                            ...(isMobile
+                                ? {
+                                      bottom: `calc(${vv?.kb ?? 0}px + max(12px, env(safe-area-inset-bottom)))`,
+                                      height: vv ? `min(${Math.max(vv.h - 24, 260)}px, 640px)` : 'min(80dvh, 640px)',
+                                  }
+                                : {
+                                      width: 'min(380px, calc(100vw - 48px))',
+                                      height: 480,
+                                      maxHeight: 'calc(100dvh - 110px)',
+                                  }),
                             background: 'rgba(10,10,8,0.97)',
                             border: '1px solid rgba(255,94,26,0.2)',
                             backdropFilter: 'blur(20px)',
@@ -256,7 +321,7 @@ export default function BlockMate() {
                             </div>
                             <button
                                 onClick={() => setOpen(false)}
-                                className="w-7 h-7 flex items-center justify-center text-fg/30 hover:text-or transition-colors duration-200 text-lg leading-none"
+                                className="w-10 h-10 md:w-7 md:h-7 flex items-center justify-center text-fg/30 hover:text-or transition-colors duration-200 text-2xl md:text-lg leading-none"
                             >
                                 ×
                             </button>
@@ -264,7 +329,7 @@ export default function BlockMate() {
 
                         {/* Messages */}
                         <div
-                            className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3"
+                            className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 flex flex-col gap-3"
                             style={{ scrollbarWidth: 'none' }}
                         >
                             {messages.map((m, i) => (
@@ -334,7 +399,7 @@ export default function BlockMate() {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && send()}
                                 placeholder="Ask about Sadeepa..."
-                                className="flex-1 bg-transparent text-[12px] text-fg/80 placeholder:text-fg/20 outline-none font-syne tracking-[0.03em]"
+                                className="flex-1 bg-transparent text-[16px] md:text-[12px] text-fg/80 placeholder:text-fg/20 outline-none font-syne tracking-[0.03em]"
                             />
                             <button
                                 onClick={send}
@@ -375,6 +440,7 @@ export default function BlockMate() {
                             </p>
                         </div>
                     </div>
+                    </PanelWrap>
                 )}
             </div>
         </>
